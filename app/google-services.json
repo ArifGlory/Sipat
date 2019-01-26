@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "748548301238",
+    "firebase_url": "https://sipat-a0ea2.firebaseio.com",
+    "project_id": "sipat-a0ea2",
+    "storage_bucket": "sipat-a0ea2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:748548301238:android:7ff3718b631c917f",
+        "android_client_info": {
+          "package_name": "myproject.travelpms"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "748548301238-riktlv0av78q54pa4gef2erqbssg5549.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "myproject.travelpms",
+            "certificate_hash": "ea6e4d451b776339d2b6ce82d3e7bf3bcf25299f"
+          }
+        },
+        {
+          "client_id": "748548301238-lpgtvjp47bciaaset16fgfvomkduv85i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyARLQSpG7eBnEJAtxPaKLX5emlmF_2wXhM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "748548301238-lpgtvjp47bciaaset16fgfvomkduv85i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
