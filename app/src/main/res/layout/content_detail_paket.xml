@@ -9,7 +9,49 @@
     tools:context=".DetailPaketTour"
     tools:showIn="@layout/activity_detail_paket_tour">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/relaDetail"
+        android:padding="5dp"
+        android:background="#3498db">
+
+        <TextView
+            android:id="@+id/txtHarga"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Rp. 00"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/txtJmlPeserta"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="50 peserta"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textSize="16dp" />
+
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fasilitas"
+            android:layout_gravity="right"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:id="@+id/btnFasilitas"
+            android:background="@color/colorPrimary"
+            android:textColor="@color/white_greyish"
+            android:layout_alignParentBottom="true" />
+
+    </LinearLayout>
+
     <android.support.v7.widget.RecyclerView
+        android:layout_below="@+id/relaDetail"
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

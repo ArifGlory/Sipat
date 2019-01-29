@@ -11,8 +11,11 @@ import com.firebase.client.Firebase;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.Calendar;
@@ -36,7 +39,7 @@ public class SplashActivity extends AppCompatActivity {
     String activeDeviceKirim;
     UserPreference mUserpref;
     String bagian;
-    private SweetAlertDialog pDialogLoading;
+    private SweetAlertDialog pDialogLoading,pDialodInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,33 +57,63 @@ public class SplashActivity extends AppCompatActivity {
         now = ""+calendar.get(Calendar.DATE)+"-"+bulan+"-"+calendar.get(Calendar.YEAR);
         FirebaseUser fbUser = FirebaseAuth.getInstance().getCurrentUser();
 
+        pDialogLoading = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
+        pDialogLoading.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+        pDialogLoading.setTitleText("Loading..");
+        pDialogLoading.setCancelable(false);
+        pDialogLoading.show();
+
 
         if (fbUser != null){
             String token = FirebaseInstanceId.getInstance().getToken();
-            SharedVariable.nama = fAuth.getCurrentUser().getDisplayName();
+
+
             SharedVariable.userID = fAuth.getCurrentUser().getUid();
 
-            mCountDownTimer = new CountDownTimer(time * 1000, 50) {
+            ref.child("users").child(SharedVariable.userID).addValueEventListener(new ValueEventListener() {
                 @Override
-                public void onTick(long millisUnitFinished) {
-                    mTimeRemaining = ((millisUnitFinished / 1000) + 1);
+                public void onDataChange(DataSnapshot dataSnapshot) {
 
-                }
+                    String email = dataSnapshot.child("email").getValue().toString();
+                    String level = dataSnapshot.child("level").getValue().toString();
+                    String nama = dataSnapshot.child("displayName").getValue().toString();
 
-                @Override
-                public void onFinish() {
+                    SharedVariable.email = email;
+                    SharedVariable.level = level;
+                    SharedVariable.nama = nama;
 
-                    if (bagian.equals("none")){
-                        i = new Intent(SplashActivity.this, MainActivity.class);
+                    mUserpref.setBagian(level);
+                    mUserpref.setEmail(email);
+                    mUserpref.setIdUser(SharedVariable.userID);
+
+                    if (level.equals("admin")){
+                        i = new Intent(SplashActivity.this, AdminActivity.class);
                         startActivity(i);
                     }else {
+
+                        if (level.equals("Instansi")){
+                            SharedVariable.paket = "paket_instansi";
+                        }else if (level.equals("Sekolah")){
+                            SharedVariable.paket = "paket_sekolah";
+                        }else if (level.equals("Umum")){
+                            SharedVariable.paket = "paket_umum";
+                        }
+
                         i = new Intent(SplashActivity.this, BerandaActivity.class);
                         startActivity(i);
                     }
 
+                    pDialogLoading.dismiss();
+
+
                 }
-            };
-            mCountDownTimer.start();
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
 
         }else {
             i = new Intent(SplashActivity.this, MainActivity.class);

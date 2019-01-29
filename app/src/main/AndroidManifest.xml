@@ -4,6 +4,9 @@
     package="myproject.travelpms">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -15,9 +18,7 @@
         tools:replace="android:icon">
         <activity
             android:name=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".RegisterActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -28,7 +29,8 @@
         <activity
             android:name=".DetailPaketTour"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".SplashActivity"
+        <activity
+            android:name=".SplashActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -36,6 +38,33 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".AdminActivity"
+            android:label="Dashboard Admin"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".TambahPaketTour"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ListPaketInstansi"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ListPaketSekolah"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ListPaketUmum"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".TambahWisata"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".DetailPaketTourAdmin"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UbahWisata"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".ProfilPerusahaan"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

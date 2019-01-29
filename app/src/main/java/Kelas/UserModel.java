@@ -14,6 +14,10 @@ public class UserModel {
     public String level;
     public String email;
 
+    public UserModel(){
+
+    }
+
     public String getEmail() {
         return email;
     }

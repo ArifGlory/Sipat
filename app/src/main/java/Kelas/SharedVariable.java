@@ -13,6 +13,8 @@ public class SharedVariable {
     public static String nama = "Not Logged in";
     public static String email = "Email";
     public static String level = "level";
+    public static String paket = "paket";
+    public static String isAdmin = "false";
     public static String fotoPsayur = "no";
     public static String userID = "";
     public static Double latitude;

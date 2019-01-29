@@ -2,13 +2,12 @@ package myproject.travelpms;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -35,8 +34,10 @@ import Kelas.SharedVariable;
 import Kelas.Wisata;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
-public class DetailPaketTour extends AppCompatActivity {
+public class DetailPaketTourAdmin extends AppCompatActivity {
 
+
+    FloatingActionButton btnTambah;
     RecyclerView recyclerView;
     AdapterWisata adapterWisata;
     Intent i;
@@ -49,18 +50,20 @@ public class DetailPaketTour extends AppCompatActivity {
     DatabaseReference ref,refUser;
     private FirebaseAuth fAuth;
     private FirebaseAuth.AuthStateListener fStateListener;
+    public static String keyPaket,namaPaketTour;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail_paket_tour);
+        setContentView(R.layout.activity_detail_paket_tour_admin);
         Firebase.setAndroidContext(this);
         FirebaseApp.initializeApp(getApplicationContext());
         ref = FirebaseDatabase.getInstance().getReference();
         fAuth = FirebaseAuth.getInstance();
-
         i = getIntent();
         final PaketTour paketTour = (PaketTour) i.getSerializableExtra("paketTour");
+        keyPaket = paketTour.getKey();
+        namaPaketTour = paketTour.getNamaPaket();
 
         wisataList = new ArrayList<>();
 
@@ -71,11 +74,12 @@ public class DetailPaketTour extends AppCompatActivity {
         jmlPeserta = findViewById(R.id.txtJmlPeserta);
         harga = findViewById(R.id.txtHarga);
 
+        btnTambah = findViewById(R.id.btnCreate);
+
         NumberFormat format = NumberFormat.getCurrencyInstance(Locale.ENGLISH);
         Locale localeID = new Locale("in", "ID");
         NumberFormat formatRupiah = NumberFormat.getCurrencyInstance(localeID);
         hargaPaket = Integer.parseInt(paketTour.getHargaPaket());
-
 
         namaPaket.setText(paketTour.getNamaPaket());
         durasi.setText("Durasi : "+paketTour.getDurasiPaket()+" hari");
@@ -97,11 +101,20 @@ public class DetailPaketTour extends AppCompatActivity {
         btnFasilitas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new SweetAlertDialog(DetailPaketTour.this)
+                new SweetAlertDialog(DetailPaketTourAdmin.this)
                         .setTitleText("Fasilitas")
                         .setContentText(paketTour.getFasilitasPaket())
                         .setConfirmText("OK")
                         .show();
+            }
+        });
+        btnTambah.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext(),TambahWisata.class);
+                i.putExtra("key",paketTour.getKey());
+                i.putExtra("namaPaket",paketTour.getNamaPaket());
+                startActivity(i);
             }
         });
 

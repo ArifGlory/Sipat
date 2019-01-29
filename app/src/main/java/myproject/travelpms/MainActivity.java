@@ -176,7 +176,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                     //Toast.makeText(getApplicationContext(), "Login Gagal, periksa kembali email dan password anda", Toast.LENGTH_LONG).show();
                 }else{
                     // Successfully signed in
-                    SharedVariable.nama = fAuth.getCurrentUser().getDisplayName();
+                  //  SharedVariable.nama = fAuth.getCurrentUser().getDisplayName();
                     SharedVariable.userID = fAuth.getCurrentUser().getUid();
                     // get the Firebase user
                     FirebaseUser fbUser = FirebaseAuth.getInstance().getCurrentUser();

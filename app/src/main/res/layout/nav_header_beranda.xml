@@ -25,6 +25,7 @@
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
         android:text="SIPAT"
+        android:id="@+id/txtNamaUser"
         android:textStyle="bold"
         android:textColor="@color/white_greyish"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />

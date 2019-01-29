@@ -54,6 +54,17 @@
 
 
                     <TextView
+                        android:textStyle="bold"
+                        android:id="@+id/txtDashboard"
+                        android:layout_marginLeft="3dp"
+                        android:layout_toRightOf="@+id/imgTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Dashboard Admin"
+                        android:textColor="@android:color/white"
+                        android:textSize="16dp" />
+
+                    <TextView
                         android:id="@+id/txtNamaPaket"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -106,16 +117,21 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <Button
-            android:layout_width="match_parent"
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/btnCreate"
+            android:backgroundTint="@color/pink"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Pilih paket ini"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:id="@+id/btnTerima"
-            android:background="#3498db"
-            android:textColor="@color/white_greyish"
-            android:layout_alignParentBottom="true" />
+            android:layout_gravity="bottom|right"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="30dp"
+            android:layout_marginBottom="30dp"
+            android:src="@drawable/addd"
+            app:borderWidth="0dp"
+            app:elevation="6dp"
+            app:pressedTranslationZ="12dp" />
 
     </RelativeLayout>
 

@@ -1,12 +1,17 @@
 package myproject.travelpms;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -16,16 +21,25 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.firebase.client.Firebase;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.List;
 
 import Fragment.FragmentBeranda;
+import Kelas.PaketTour;
+import Kelas.SharedVariable;
 import Kelas.UserPreference;
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class BerandaActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -38,6 +52,8 @@ public class BerandaActivity extends AppCompatActivity
     FirebaseUser fbUser;
     UserPreference mUserpref;
     Intent i;
+    private SweetAlertDialog pDialogLoading,pDialodInfo;
+    DialogInterface.OnClickListener listener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +70,7 @@ public class BerandaActivity extends AppCompatActivity
         fbUser = FirebaseAuth.getInstance().getCurrentUser();
         mUserpref = new UserPreference(this);
 
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -62,10 +79,26 @@ public class BerandaActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        View headerView = navigationView.getHeaderView(0);
+        TextView txtNamaProfil = (TextView) headerView.findViewById(R.id.txtNamaUser);
+        txtNamaProfil.setText(SharedVariable.nama);
 
         fragmentBeranda = new FragmentBeranda();
         goToFragment(fragmentBeranda,true);
 
+        pDialogLoading = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
+        pDialogLoading.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+        pDialogLoading.setTitleText("Menampilkan data..");
+        pDialogLoading.setCancelable(false);
+
+    }
+
+    public  void showLoading(){
+//        pDialogLoading.show();
+    }
+
+    public void dismissLoading(){
+       // pDialogLoading.dismiss();
     }
 
     void goToFragment(Fragment fragment, boolean isTop) {
@@ -80,12 +113,28 @@ public class BerandaActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Apakan anda ingin keluar dari aplikasi ?");
+        builder.setCancelable(false);
+
+        listener = new DialogInterface.OnClickListener()
+        {
+            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if(which == DialogInterface.BUTTON_POSITIVE){
+                    finishAffinity();
+                    System.exit(0);
+                }
+
+                if(which == DialogInterface.BUTTON_NEGATIVE){
+                    dialog.cancel();
+                }
+            }
+        };
+        builder.setPositiveButton("Ya",listener);
+        builder.setNegativeButton("Tidak", listener);
+        builder.show();
     }
 
     @Override
@@ -117,8 +166,10 @@ public class BerandaActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_riwayat) {
-            // Handle the camera action
+
         } else if (id == R.id.nav_tentang) {
+            Intent i = new Intent(getApplicationContext(), ProfilPerusahaan.class);
+            startActivity(i);
 
         } else if (id == R.id.nav_logout) {
             fAuth.signOut();

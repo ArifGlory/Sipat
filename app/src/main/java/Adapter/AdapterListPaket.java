@@ -8,7 +8,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,33 +19,30 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 
 import Kelas.PaketTour;
 import Kelas.SharedVariable;
-import Kelas.Wisata;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import de.hdodenhof.circleimageview.CircleImageView;
 import myproject.travelpms.DetailPaketTourAdmin;
 import myproject.travelpms.R;
-import myproject.travelpms.UbahWisata;
 
 /**
  * Created by Ravi Tamada on 18/05/16.
  */
-public class AdapterWisata extends RecyclerView.Adapter<AdapterWisata.MyViewHolder> {
+public class AdapterListPaket extends RecyclerView.Adapter<AdapterListPaket.MyViewHolder> {
 
     private Context mContext;
-    String namaWisata[] = {"Tangkuban Perahu","Sari Ater"};
-    int gambar[] = {R.drawable.tangkuban,R.drawable.sari_ater};
-    private List<Wisata> wisataList;
+    private List<PaketTour> paketTourList;
     DatabaseReference ref,refUser;
     private FirebaseAuth fAuth;
-    private FirebaseAuth.AuthStateListener fStateListener;
 
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView namaWisata;
+        public TextView namaWisata,harga,durasi;
         public CircleImageView imgWisata;
         public CardView cv_main;
         public RelativeLayout relaList;
@@ -54,28 +50,26 @@ public class AdapterWisata extends RecyclerView.Adapter<AdapterWisata.MyViewHold
         public MyViewHolder(View view) {
             super(view);
             namaWisata = (TextView) view.findViewById(R.id.txtNamaWisata);
+            harga = (TextView) view.findViewById(R.id.txtHarga);
+            durasi = (TextView) view.findViewById(R.id.txtDurasi);
             imgWisata = view.findViewById(R.id.imgWisata);
             cv_main = (CardView) view.findViewById(R.id.cardlist_item);
             relaList = view.findViewById(R.id.relaList);
         }
     }
 
-
-    public AdapterWisata(Context mContext,List<Wisata> wisataList) {
+    public AdapterListPaket(Context mContext,List<PaketTour> paketTourList) {
         this.mContext = mContext;
-        this.wisataList = wisataList;
-
+        this.paketTourList = paketTourList;
         Firebase.setAndroidContext(mContext);
         FirebaseApp.initializeApp(mContext);
         ref = FirebaseDatabase.getInstance().getReference();
-        fAuth = FirebaseAuth.getInstance();
-
     }
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.itemlist_detailpaket, parent, false);
+                .inflate(R.layout.itemlist_list_paket_tour, parent, false);
 
         return new MyViewHolder(itemView);
     }
@@ -83,16 +77,22 @@ public class AdapterWisata extends RecyclerView.Adapter<AdapterWisata.MyViewHold
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
 
-
-        if (wisataList.isEmpty()){
+        if (paketTourList.isEmpty()){
             Toast.makeText(mContext.getApplicationContext(),"Data Kosong !",Toast.LENGTH_LONG).show();
-            Log.d("isiWisataList : ",""+wisataList.size());
+            Log.d("isiPaketList : ",""+paketTourList.size());
         }else {
-            final Wisata wisata = wisataList.get(position);
 
-            holder.namaWisata.setText(wisata.getNamaWisata());
+            final PaketTour paketTour = paketTourList.get(position);
+            NumberFormat format = NumberFormat.getCurrencyInstance(Locale.ENGLISH);
+            Locale localeID = new Locale("in", "ID");
+            NumberFormat formatRupiah = NumberFormat.getCurrencyInstance(localeID);
+            int hargaPaket = Integer.parseInt(paketTour.getHargaPaket());
+
+            holder.namaWisata.setText(paketTour.getNamaPaket());
+            holder.harga.setText("Harga : "+formatRupiah.format((double) hargaPaket));
+            holder.durasi.setText("Durasi "+paketTour.getDurasiPaket()+" hari");
             Glide.with(mContext)
-                    .load(wisata.getDownloadUrl())
+                    .load(paketTour.getDownloadUrl())
                     .into(holder.imgWisata);
 
             holder.cv_main.setOnClickListener(new View.OnClickListener() {
@@ -105,24 +105,27 @@ public class AdapterWisata extends RecyclerView.Adapter<AdapterWisata.MyViewHold
             holder.relaList.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    Intent intent = new Intent(mContext.getApplicationContext(),DetailPaketTourAdmin.class);
+                    intent.putExtra("paketTour", paketTour);
+                    mContext.startActivity(intent);
                 }
             });
+
+
             holder.relaList.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
 
-
                     if (SharedVariable.level.equals("admin")){
                         new SweetAlertDialog(mContext, SweetAlertDialog.WARNING_TYPE)
-                                .setTitleText("Hapus atau Ubah Wisata ini ?")
-                                .setContentText("Anda dapat mengubah data atau menghapus data wisata ini")
+                                .setTitleText("Hapus atau Ubah Paket Tour ini ?")
+                                .setContentText("Anda dapat mengubah data atau menghapus data paket tour ini")
                                 .setConfirmText("Hapus")
                                 .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                     @Override
                                     public void onClick(SweetAlertDialog sDialog) {
-                                        ref.child("pakettour").child(SharedVariable.paket).child(DetailPaketTourAdmin.keyPaket)
-                                                .child("wisataList").child(wisata.getKey()).setValue(null);
+                                        ref.child("pakettour").child(SharedVariable.paket).child(paketTour.getKey())
+                                                .setValue(null);
                                         sDialog.dismissWithAnimation();
                                     }
                                 })
@@ -130,32 +133,22 @@ public class AdapterWisata extends RecyclerView.Adapter<AdapterWisata.MyViewHold
                                     @Override
                                     public void onClick(SweetAlertDialog sDialog) {
                                         sDialog.dismissWithAnimation();
-                                        Intent intent = new Intent(mContext.getApplicationContext(),UbahWisata.class);
-                                        intent.putExtra("wisata", wisata);
-                                        intent.putExtra("keyPaket", DetailPaketTourAdmin.keyPaket);
-                                        intent.putExtra("namaPaket", DetailPaketTourAdmin.namaPaketTour);
-                                        mContext.startActivity(intent);
-
                                     }
                                 })
                                 .show();
                     }
-
                     return true;
                 }
             });
-
-
         }
 
 
     }
 
 
-
     @Override
     public int getItemCount() {
-       // return namaWisata.length;
-        return  wisataList.size();
+        //return namaWisata.length;
+        return paketTourList.size();
     }
 }

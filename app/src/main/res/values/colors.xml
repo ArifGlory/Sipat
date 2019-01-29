@@ -16,6 +16,8 @@
     <color name="cyan">#009688</color>
     <color name="kuningGelap">#7CB342</color>
     <color name="unguMuda">#BA68C8</color>
+    <color name="ijoTua">#00838f</color>
+    <color name="ijoDark">#005661</color>
 
     <color name="btn_default_light_normal">#00000000</color>
     <color name="btn_default_light_pressed">#40ffffff</color>
@@ -29,6 +31,8 @@
     <color name="viewBg">#f1f5f8</color>
     <color name="album_title">#4c4c4c</color>
     <color name="photo_placeholder">#ccc</color>
+    <color name="startblue">#4bb6ef</color>
+    <color name="endblue">#4bb6ef</color>
 
     <color name="color_white">#FFF</color>
 </resources>
