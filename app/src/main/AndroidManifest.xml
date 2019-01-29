@@ -63,7 +63,10 @@
         <activity
             android:name=".UbahWisata"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".ProfilPerusahaan"
+        <activity
+            android:name=".ProfilPerusahaan"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".CheckoutActivity"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

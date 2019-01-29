@@ -49,6 +49,7 @@ public class DetailPaketTour extends AppCompatActivity {
     DatabaseReference ref,refUser;
     private FirebaseAuth fAuth;
     private FirebaseAuth.AuthStateListener fStateListener;
+    Button btnKeCheckout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +71,7 @@ public class DetailPaketTour extends AppCompatActivity {
         btnFasilitas = findViewById(R.id.btnFasilitas);
         jmlPeserta = findViewById(R.id.txtJmlPeserta);
         harga = findViewById(R.id.txtHarga);
+        btnKeCheckout = findViewById(R.id.btnTerima);
 
         NumberFormat format = NumberFormat.getCurrencyInstance(Locale.ENGLISH);
         Locale localeID = new Locale("in", "ID");
@@ -102,6 +104,13 @@ public class DetailPaketTour extends AppCompatActivity {
                         .setContentText(paketTour.getFasilitasPaket())
                         .setConfirmText("OK")
                         .show();
+            }
+        });
+        btnKeCheckout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),CheckoutActivity.class);
+                startActivity(intent);
             }
         });
 
