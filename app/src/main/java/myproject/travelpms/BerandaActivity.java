@@ -166,7 +166,8 @@ public class BerandaActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_riwayat) {
-
+            Intent i = new Intent(getApplicationContext(), ListPesananUser.class);
+            startActivity(i);
         } else if (id == R.id.nav_tentang) {
             Intent i = new Intent(getApplicationContext(), ProfilPerusahaan.class);
             startActivity(i);

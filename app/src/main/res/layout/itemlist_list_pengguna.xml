@@ -23,7 +23,7 @@
         android:clickable="true">
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/imgWisata"
+            android:id="@+id/imgFoto"
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:paddingTop="16dp"
@@ -38,7 +38,7 @@
             android:paddingRight="@dimen/activity_horizontal_margin"
             android:id="@+id/line1"
             android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@+id/imgWisata"
+            android:layout_toRightOf="@+id/imgFoto"
             >
 
             <TextView

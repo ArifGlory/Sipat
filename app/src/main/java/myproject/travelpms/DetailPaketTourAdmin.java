@@ -137,13 +137,15 @@ public class DetailPaketTourAdmin extends AppCompatActivity {
                     String downloadURL = child.child("downloadUrl").getValue().toString();
                     String key = child.child("key").getValue().toString();
                     String jenisPaket = child.child("jenisPaket").getValue().toString();
+                    String keterangan = child.child("keterangan").getValue().toString();
 
                     Wisata wisata = new Wisata(
                             nama,
                             key,
                             downloadURL,
                             status,
-                            jenisPaket
+                            jenisPaket,
+                            keterangan
                     );
                     wisataList.add(wisata);
                     adapterWisata.notifyDataSetChanged();

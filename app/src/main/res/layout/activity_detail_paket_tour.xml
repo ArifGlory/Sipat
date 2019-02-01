@@ -87,6 +87,37 @@
 
 
                 </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/relaRating"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:layout_alignParentRight="true">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/imgRate"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/star"/>
+
+                    <TextView
+                        android:id="@+id/txtRating"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="5"
+                        android:layout_marginRight="10dp"
+                        android:layout_toRightOf="@+id/imgRate"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
+                        android:textSize="30dp" />
+
+
+
+                </RelativeLayout>
+
             </RelativeLayout>
 
             <android.support.v7.widget.Toolbar
@@ -106,6 +137,16 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="key"
+            android:textStyle="bold"
+            android:id="@+id/txtKey"
+            android:textColor="@color/white_greyish"
+            android:textSize="18sp"/>
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

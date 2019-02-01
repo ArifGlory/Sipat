@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,49 +20,50 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.text.NumberFormat;
 import java.util.List;
-import java.util.Locale;
 
-import Kelas.PaketTour;
-import Kelas.SharedVariable;
+import Kelas.ListPesanan;
+import Kelas.Pesanan;
 import Kelas.UserModel;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import de.hdodenhof.circleimageview.CircleImageView;
-import myproject.travelpms.DetailPaketTourAdmin;
+import myproject.travelpms.DetailPesananAdmin;
+import myproject.travelpms.InvoiceUser;
 import myproject.travelpms.R;
 
 /**
  * Created by Ravi Tamada on 18/05/16.
  */
-public class AdapterListPengguna extends RecyclerView.Adapter<AdapterListPengguna.MyViewHolder> {
+public class AdapterListPesanan extends RecyclerView.Adapter<AdapterListPesanan.MyViewHolder> {
 
     private Context mContext;
-    private List<UserModel> userModelList;
+    private List<Pesanan> listPesanan;
     DatabaseReference ref,refUser;
     private FirebaseAuth fAuth;
 
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView namaPengguna,nope,email;
+        public TextView namaPengguna,txtPaket,txtJenis;
         public CircleImageView imgFoto;
         public CardView cv_main;
+        public ImageView imgStatus;
         public RelativeLayout relaList;
 
         public MyViewHolder(View view) {
             super(view);
             namaPengguna = (TextView) view.findViewById(R.id.txtNamaPengguna);
-            email = (TextView) view.findViewById(R.id.txtEmail);
-            nope = (TextView) view.findViewById(R.id.txtNope);
+            txtJenis = (TextView) view.findViewById(R.id.txtJenis);
+            txtPaket = (TextView) view.findViewById(R.id.txtPaket);
             imgFoto = view.findViewById(R.id.imgFoto);
+            imgStatus = view.findViewById(R.id.imgStatus);
             cv_main = (CardView) view.findViewById(R.id.cardlist_item);
             relaList = view.findViewById(R.id.relaList);
         }
     }
 
-    public AdapterListPengguna(Context mContext, List<UserModel> userModelList) {
+    public AdapterListPesanan(Context mContext, List<Pesanan> listPesanan) {
         this.mContext = mContext;
-        this.userModelList = userModelList;
+        this.listPesanan = listPesanan;
         Firebase.setAndroidContext(mContext);
         FirebaseApp.initializeApp(mContext);
         ref = FirebaseDatabase.getInstance().getReference();
@@ -70,7 +72,7 @@ public class AdapterListPengguna extends RecyclerView.Adapter<AdapterListPenggun
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.itemlist_list_pengguna, parent, false);
+                .inflate(R.layout.itemlist_list_pesanan, parent, false);
 
         return new MyViewHolder(itemView);
     }
@@ -78,22 +80,43 @@ public class AdapterListPengguna extends RecyclerView.Adapter<AdapterListPenggun
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
 
-        if (userModelList.isEmpty()){
+        if (listPesanan.isEmpty()){
             Toast.makeText(mContext.getApplicationContext(),"Data Kosong !",Toast.LENGTH_LONG).show();
-            Log.d("isiuserList : ",""+userModelList.size());
+            Log.d("isiListPesanan : ",""+listPesanan.size());
         }else {
 
-            UserModel userModel = userModelList.get(position);
+            final Pesanan pesanan = listPesanan.get(position);
 
-            holder.namaPengguna.setText(userModel.getDisplayName());
-            holder.nope.setText(userModel.getPhone());
-            holder.email.setText(userModel.getEmail());
-            if (userModel.getFoto().equals("no")){
+            holder.namaPengguna.setText(pesanan.getNamaPengguna());
+            holder.txtPaket.setText(pesanan.getNamaPaket());
+
+            if (pesanan.getJenisPaket().equals("paket_instansi")){
+                holder.txtJenis.setText("Paket : Instansi");
+            }else if (pesanan.getJenisPaket().equals("paket_sekolah")){
+                holder.txtJenis.setText("Paket : Sekolah");
+            }else if (pesanan.getJenisPaket().equals("paket_umum")){
+                holder.txtJenis.setText("Paket : Umum");
+            }
+
+            if (pesanan.getFoto().equals("no")){
                 holder.imgFoto.setImageResource(R.drawable.pemilik_kos);
-            }else {
+            }else if (pesanan.getFoto().equals("user")){
+                holder.imgFoto.setImageResource(R.drawable.tour2);
+                holder.namaPengguna.setText(pesanan.getNamaPaket());
+                holder.txtPaket.setText("");
+            }
+            else {
                 Glide.with(mContext)
-                        .load(userModel.getFoto())
+                        .load(pesanan.getFoto())
                         .into(holder.imgFoto);
+            }
+
+            if (pesanan.getStatus().equals("M")){
+                holder.imgStatus.setImageResource(R.drawable.stopwatch);
+            }else if (pesanan.getStatus().equals("T")){
+                holder.imgStatus.setImageResource(R.drawable.check);
+            }else if (pesanan.getStatus().equals("D")){
+                holder.imgStatus.setImageResource(R.drawable.deny);
             }
 
 
@@ -108,9 +131,21 @@ public class AdapterListPengguna extends RecyclerView.Adapter<AdapterListPenggun
                 @Override
                 public void onClick(View v) {
 
+
+
+                    if (pesanan.getFoto().equals("user")){
+                        Intent i = new Intent(mContext,InvoiceUser.class);
+                        i.putExtra("pesanan",pesanan);
+
+                        mContext.startActivity(i);
+                    }else {
+                        Intent i = new Intent(mContext,DetailPesananAdmin.class);
+                        i.putExtra("pesanan",pesanan);
+                        mContext.startActivity(i);
+
+                    }
                 }
             });
-
 
             holder.relaList.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
@@ -128,6 +163,6 @@ public class AdapterListPengguna extends RecyclerView.Adapter<AdapterListPenggun
     @Override
     public int getItemCount() {
         //return namaWisata.length;
-        return userModelList.size();
+        return listPesanan.size();
     }
 }

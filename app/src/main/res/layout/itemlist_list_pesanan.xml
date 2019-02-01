@@ -23,46 +23,62 @@
         android:clickable="true">
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/imgWisata"
+            android:id="@+id/imgFoto"
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:paddingTop="16dp"
-            android:src="@drawable/icon_tiger" />
+            android:src="@drawable/pemilik_kos" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
             android:orientation="vertical"
             android:paddingBottom="8dp"
             android:paddingLeft="@dimen/activity_horizontal_margin"
             android:paddingRight="@dimen/activity_horizontal_margin"
             android:id="@+id/line1"
             android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@+id/imgWisata"
+            android:layout_toRightOf="@+id/imgFoto"
             >
 
             <TextView
-                android:id="@+id/txtNamaWisata"
+                android:id="@+id/txtNamaPengguna"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Nama Wisata"
-                android:layout_marginTop="2dp"
+                android:text="Nama Pengguna"
+                android:textStyle="bold"
                 android:textColor="@color/primary_text_default_material_light"
-                android:textSize="18sp" />
+                android:textSize="20sp" />
 
             <TextView
-                android:id="@+id/txtKeterangan"
+                android:id="@+id/txtPaket"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Keterangan"
-                android:layout_marginTop="10dp"
+                android:text="Paket dipilih"
+                android:layout_marginTop="4dp"
                 android:textColor="@color/primary_text_default_material_light"
-                android:textSize="15sp" />
+                android:textSize="@dimen/abc_text_size_subhead_material" />
 
+            <TextView
+                android:id="@+id/txtJenis"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Jenis Paket"
+                android:layout_marginTop="4dp"
+                android:textColor="@color/primary_text_default_material_light"
+                android:textSize="@dimen/abc_text_size_subhead_material" />
 
 
         </LinearLayout>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imgStatus"
+            android:src="@drawable/stopwatch"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp"
+            android:layout_centerVertical="true" />
 
 
 

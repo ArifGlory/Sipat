@@ -61,6 +61,33 @@
                 android:textColorHint="@color/white"
                 android:textSize="16sp" />
 
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="3px"
+                android:background="@color/white_greyish" />
+
+            <EditText
+                android:id="@+id/etKeterangan"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@android:color/transparent"
+                android:drawableLeft="@drawable/plate2"
+                android:drawableStart="@drawable/plate2"
+                android:drawablePadding="8dp"
+                android:gravity="top|left"
+                android:overScrollMode="always"
+                android:scrollbarStyle="insideInset"
+                android:scrollbars="vertical"
+                android:lines="6"
+                android:scrollHorizontally="false"
+                android:hint="Deskripsi Singkat"
+                android:inputType="textMultiLine"
+                android:padding="10dp"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                android:textSize="16sp" />
+
 
 
 

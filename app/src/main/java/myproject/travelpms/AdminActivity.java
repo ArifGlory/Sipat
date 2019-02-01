@@ -25,6 +25,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import Fragment.FragmentBeranda;
 import Fragment.FragmentPaketTour;
 import Fragment.FragmentListPengguna;
+import Fragment.FragmentListPesanan;
 import Kelas.UserPreference;
 
 public class AdminActivity extends AppCompatActivity {
@@ -38,6 +39,7 @@ public class AdminActivity extends AppCompatActivity {
     FirebaseUser fbUser;
     UserPreference mUserpref;
     FragmentListPengguna fragmentListPengguna;
+    FragmentListPesanan fragmentListPesanan;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -50,7 +52,8 @@ public class AdminActivity extends AppCompatActivity {
                     goToFragment(fragmentPaketTour,true);
                     return true;
                 case R.id.navigation_pesanan:
-
+                    fragmentListPesanan = new FragmentListPesanan();
+                    goToFragment(fragmentListPesanan,true);
                     return true;
                 case R.id.navigation_pengguna:
                     fragmentListPengguna = new FragmentListPengguna();

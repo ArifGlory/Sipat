@@ -43,7 +43,7 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 public class UbahWisata extends AppCompatActivity {
 
     TextView txtNamaPaket;
-    EditText etNamaWisata;
+    EditText etNamaWisata,etKeterangan;
     Button btnSimpan;
     private String keyPaket,namaPaket,keyWisata,uriFirebase;
     Intent i;
@@ -81,6 +81,7 @@ public class UbahWisata extends AppCompatActivity {
         etNamaWisata = findViewById(R.id.etNamaWisata);
         btnSimpan = findViewById(R.id.btnSimpan);
         imgBrowse = (ImageView) findViewById(R.id.img_browse);
+        etKeterangan = findViewById(R.id.etKeterangan);
 
         txtNamaPaket.setText(namaPaket);
         Glide.with(this)
@@ -120,20 +121,24 @@ public class UbahWisata extends AppCompatActivity {
         pDialogLoading.show();
         imgBrowse.setEnabled(false);
         etNamaWisata.setEnabled(false);
+        etKeterangan.setEnabled(false);
     }
 
     private void hidupkanKomponen(){
 
         imgBrowse.setEnabled(true);
         etNamaWisata.setEnabled(true);
+        etKeterangan.setEnabled(true);
     }
 
     private void checkValidation(){
         String getNama = etNamaWisata.getText().toString();
+        String getKeterangan = etKeterangan.getText().toString();
 
         matikanKomponen();
 
         if (getNama.equals("") || getNama.length() == 0
+                || getKeterangan.equals("") || getKeterangan.length() == 0
                 ) {
 
             new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
@@ -195,6 +200,8 @@ public class UbahWisata extends AppCompatActivity {
     private void uploadWithoutGambar(){
         ref.child("pakettour").child(SharedVariable.paket).child(keyPaket).child("wisataList").child(keyWisata)
                 .child("namaWisata").setValue(etNamaWisata.getText().toString());
+        ref.child("pakettour").child(SharedVariable.paket).child(keyPaket).child("wisataList").child(keyWisata)
+                .child("keterangan").setValue(etKeterangan.getText().toString());
 
         pDialogLoading.dismiss();
         new SweetAlertDialog(UbahWisata.this, SweetAlertDialog.SUCCESS_TYPE)
@@ -240,7 +247,8 @@ public class UbahWisata extends AppCompatActivity {
                         keyWisata,
                         downloadUrl.toString(),
                         "on",
-                        SharedVariable.paket
+                        SharedVariable.paket,
+                        etKeterangan.getText().toString()
                 );
 
                 ref.child("pakettour").child(SharedVariable.paket).child(keyPaket).child("wisataList").child(keyWisata).setValue(wisata);

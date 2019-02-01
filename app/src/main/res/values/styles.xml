@@ -6,15 +6,58 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
+        <!-- Assign dialog style here. -->
+        <item name="alertDialogTheme">@style/MyAlertDialogStyle</item>
+        <item name="alertDialogStyle">@style/MyAlertDialogStyle</item>
+
+        <!-- Assign custom text styles for title, description, comment -->
+        <!--<item name="appRatingDialogTitleStyle">MyDialogTitleStyle</item>
+        <item name="appRatingDialogDescriptionStyle">MyDialogDescriptionStyle</item>
+        <item name="appRatingDialogNoteDescriptionStyle">MyDialogNoteDescriptionStyle</item>
+        <item name="appRatingDialogCommentStyle">MyDialogCommentStyle</item>-->
     </style>
+
+    <attr name="appRatingDialogTitleStyle" format="reference" />
+    <attr name="appRatingDialogDescriptionStyle" format="reference" />
+    <attr name="appRatingDialogNoteDescriptionStyle" format="reference" />
+    <attr name="appRatingDialogCommentStyle" format="reference" />
 
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+
+        <!-- Assign dialog style here. -->
+        <item name="alertDialogTheme">@style/MyAlertDialogStyle</item>
+        <item name="alertDialogStyle">@style/MyAlertDialogStyle</item>
+
+      <!--  &lt;!&ndash; Assign custom text styles for title, description, comment &ndash;&gt;
+        <item name="appRatingDialogTitleStyle">MyDialogTitleStyle</item>
+        <item name="appRatingDialogDescriptionStyle">MyDialogDescriptionStyle</item>
+        <item name="appRatingDialogNoteDescriptionStyle">MyDialogNoteDescriptionStyle</item>
+        <item name="appRatingDialogCommentStyle">MyDialogCommentStyle</item>-->
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <!-- Dialog -->
+    <style name="MyAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:background">@color/white_greyish</item>
+        <item name="buttonBarPositiveButtonStyle">@style/MyAlertDialogButtonStyle</item>
+        <item name="buttonBarNegativeButtonStyle">@style/MyAlertDialogButtonStyle</item>
+        <item name="buttonBarNeutralButtonStyle">@style/MyAlertDialogButtonStyle</item>
+    </style>
+
+    <style name="MyAlertDialogButtonStyle" parent="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog">
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="MyDialogFadeAnimation">
+        <item name="android:windowEnterAnimation">@android:anim/fade_in</item>
+        <item name="android:windowExitAnimation">@android:anim/fade_out</item>
+    </style>
 
 </resources>

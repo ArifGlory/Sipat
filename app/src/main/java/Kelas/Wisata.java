@@ -9,6 +9,15 @@ public class Wisata implements Serializable {
     public String downloadUrl;
     public String statusWisata;
     public String jenisPaket;
+    public String keterangan;
+
+    public String getKeterangan() {
+        return keterangan;
+    }
+
+    public void setKeterangan(String keterangan) {
+        this.keterangan = keterangan;
+    }
 
     public String getJenisPaket() {
         return jenisPaket;
@@ -22,12 +31,13 @@ public class Wisata implements Serializable {
 
     }
 
-    public Wisata(String namaWisata, String key, String downloadUrl, String statusWisata,String jenisPaket) {
+    public Wisata(String namaWisata, String key, String downloadUrl, String statusWisata,String jenisPaket,String keterangan) {
         this.namaWisata = namaWisata;
         this.key = key;
         this.downloadUrl = downloadUrl;
         this.statusWisata = statusWisata;
         this.jenisPaket = jenisPaket;
+        this.keterangan = keterangan;
     }
 
     public String getNamaWisata() {

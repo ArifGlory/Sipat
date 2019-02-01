@@ -258,7 +258,8 @@ public class RegisterActivity extends AppCompatActivity {
                             "1",
                             userPhone.getText().toString(),
                             levelUser,
-                            emailId.getText().toString()
+                            emailId.getText().toString(),
+                            "no"
                             );
 
                     ref = ref.child("users");

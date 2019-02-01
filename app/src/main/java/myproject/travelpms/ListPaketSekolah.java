@@ -119,7 +119,6 @@ public class ListPaketSekolah extends AppCompatActivity {
                     pDialogLoading.dismiss();
                 }
 
-
             }
 
             @Override

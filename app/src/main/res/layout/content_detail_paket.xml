@@ -50,6 +50,8 @@
 
     </LinearLayout>
 
+
+
     <android.support.v7.widget.RecyclerView
         android:layout_below="@+id/relaDetail"
         android:id="@+id/recycler_view"

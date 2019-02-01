@@ -34,17 +34,14 @@ import com.google.firebase.storage.UploadTask;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import Kelas.PaketTour;
 import Kelas.SharedVariable;
 import Kelas.Wisata;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
-public class TambahWisata extends AppCompatActivity {
+public class TambahBuktiBayar extends AppCompatActivity {
 
-    TextView txtNamaPaket;
-    EditText etNamaWisata,etKeterangan;
     Button btnSimpan;
-    String keyPaket,namaPaket;
+    String keyPesanan,namaPaket;
     Intent i;
     DatabaseReference ref;
     private FirebaseAuth fAuth;
@@ -56,12 +53,13 @@ public class TambahWisata extends AppCompatActivity {
     static final int RC_IMAGE_GALLERY = 2;
     Uri uriGambar,file;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tambah_wisata);
+        setContentView(R.layout.activity_tambah_bukti_bayar);
         Firebase.setAndroidContext(this);
-        FirebaseApp.initializeApp(TambahWisata.this);
+        FirebaseApp.initializeApp(TambahBuktiBayar.this);
         fbUser = FirebaseAuth.getInstance().getCurrentUser();
         if (fbUser == null) {
             finish();
@@ -69,23 +67,16 @@ public class TambahWisata extends AppCompatActivity {
         ref = FirebaseDatabase.getInstance().getReference();
 
         i = getIntent();
-        keyPaket = i.getStringExtra("key");
-        namaPaket = i.getStringExtra("namaPaket");
+        keyPesanan =   i.getStringExtra("keyPesanan");
 
-
-        txtNamaPaket = findViewById(R.id.txtNamaPaket);
-        etNamaWisata = findViewById(R.id.etNamaWisata);
         btnSimpan = findViewById(R.id.btnSimpan);
         imgBrowse = (ImageView) findViewById(R.id.img_browse);
-        etKeterangan = findViewById(R.id.etKeterangan);
-
-        txtNamaPaket.setText(namaPaket);
 
         imgBrowse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(TambahWisata.this, new String[] {android.Manifest.permission.READ_EXTERNAL_STORAGE}, RC_PERMISSION_READ_EXTERNAL_STORAGE);
+                    ActivityCompat.requestPermissions(TambahBuktiBayar.this, new String[] {android.Manifest.permission.READ_EXTERNAL_STORAGE}, RC_PERMISSION_READ_EXTERNAL_STORAGE);
                 } else {
                     Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                     intent.setType("image/*");
@@ -106,51 +97,63 @@ public class TambahWisata extends AppCompatActivity {
         pDialogLoading.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
         pDialogLoading.setTitleText("Loading..");
         pDialogLoading.setCancelable(false);
-
-
-    }
-
-    private void matikanKomponen(){
-        pDialogLoading.show();
-        imgBrowse.setEnabled(false);
-        etNamaWisata.setEnabled(false);
-        etKeterangan.setEnabled(false);
-    }
-
-    private void hidupkanKomponen(){
-
-        imgBrowse.setEnabled(true);
-        etNamaWisata.setEnabled(true);
-        etKeterangan.setEnabled(true);
     }
 
     private void checkValidation(){
-        String getNama = etNamaWisata.getText().toString();
-        String getKeterangan = etKeterangan.getText().toString();
 
-        matikanKomponen();
-
-        if (getNama.equals("") || getNama.length() == 0
-                || getKeterangan.equals("") || getKeterangan.length() == 0
-                ) {
-
+        if (uriGambar == null){
             new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
                     .setTitleText("Oops...")
-                    .setContentText("Semua Field Harus diisi")
+                    .setContentText("Foto Bukti bayar harus Diisi")
                     .show();
-            hidupkanKomponen();
-            pDialogLoading.dismiss();
-        }else if (uriGambar == null){
-            new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
-                    .setTitleText("Oops...")
-                    .setContentText("Gambar wisata harus Diisi")
-                    .show();
-            hidupkanKomponen();
+
             pDialogLoading.dismiss();
         }else {
             uploadData(uriGambar);
-            hidupkanKomponen();
+
         }
+    }
+
+    private void uploadData(final Uri uri){
+        pDialogLoading.show();
+        StorageReference storageRef = FirebaseStorage.getInstance().getReference();
+        StorageReference imagesRef = storageRef.child("images");
+        StorageReference userRef = imagesRef.child(fbUser.getUid());
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String filename = fbUser.getUid() + "_" + timeStamp;
+        StorageReference fileRef = userRef.child(filename);
+
+        UploadTask uploadTask = fileRef.putFile(uri);
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle unsuccessful uploads
+                Toast.makeText(TambahBuktiBayar.this, "Upload failed!\n" + exception.getMessage(), Toast.LENGTH_LONG).show();
+                pDialogLoading.dismiss();
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                @SuppressWarnings("VisibleForTests") Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                //Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                pDialogLoading.dismiss();
+                Toast.makeText(TambahBuktiBayar.this, "Upload gambar finished!", Toast.LENGTH_SHORT).show();
+
+                // save image to database
+
+                ref.child("pesanan").child(keyPesanan).child("buktiBayar").setValue(downloadUrl);
+
+                new SweetAlertDialog(TambahBuktiBayar.this, SweetAlertDialog.SUCCESS_TYPE)
+                        .setTitleText("Sukses!")
+                        .setContentText("Data Berhasil Disimpan")
+                        .show();
+
+              //  imgBrowse.setImageResource(R.drawable.ic_browse);
+
+            }
+        });
+
+
     }
 
     public static String GetMimeType(Context context, Uri uriImage)
@@ -183,8 +186,8 @@ public class TambahWisata extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == RC_IMAGE_GALLERY && resultCode == RESULT_OK) {
             uriGambar = data.getData();
-            final String tipe = GetMimeType(TambahWisata.this,uriGambar);
-         //   Toast.makeText(TambahWisata.this, "Tipe : !\n" + tipe, Toast.LENGTH_LONG).show();
+            final String tipe = GetMimeType(TambahBuktiBayar.this,uriGambar);
+            //   Toast.makeText(TambahWisata.this, "Tipe : !\n" + tipe, Toast.LENGTH_LONG).show();
 
             imgBrowse.setImageURI(uriGambar);
         }
@@ -192,61 +195,6 @@ public class TambahWisata extends AppCompatActivity {
             uriGambar = file;
             imgBrowse.setImageURI(uriGambar);
         }
-
-
-    }
-
-    private void uploadData(final Uri uri){
-        pDialogLoading.show();
-        StorageReference storageRef = FirebaseStorage.getInstance().getReference();
-        StorageReference imagesRef = storageRef.child("images");
-        StorageReference userRef = imagesRef.child(fbUser.getUid());
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String filename = fbUser.getUid() + "_" + timeStamp;
-        StorageReference fileRef = userRef.child(filename);
-
-        UploadTask uploadTask = fileRef.putFile(uri);
-        uploadTask.addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                // Handle unsuccessful uploads
-                Toast.makeText(TambahWisata.this, "Upload failed!\n" + exception.getMessage(), Toast.LENGTH_LONG).show();
-                pDialogLoading.dismiss();
-            }
-        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                @SuppressWarnings("VisibleForTests") Uri downloadUrl = taskSnapshot.getDownloadUrl();
-                //Uri downloadUrl = taskSnapshot.getDownloadUrl();
-                pDialogLoading.dismiss();
-                Toast.makeText(TambahWisata.this, "Upload gambar finished!", Toast.LENGTH_SHORT).show();
-
-                // save image to database
-
-
-                String key = ref.child("pakettour").child(SharedVariable.paket).child(keyPaket).child("wisataList").push().getKey();
-
-                Wisata wisata = new Wisata(
-                  etNamaWisata.getText().toString(),
-                  key,
-                  downloadUrl.toString(),
-                  "on",
-                        SharedVariable.paket,
-                        etKeterangan.getText().toString()
-                );
-
-                ref.child("pakettour").child(SharedVariable.paket).child(keyPaket).child("wisataList").child(key).setValue(wisata);
-
-                new SweetAlertDialog(TambahWisata.this, SweetAlertDialog.SUCCESS_TYPE)
-                        .setTitleText("Sukses!")
-                        .setContentText("Data Berhasil Disimpan")
-                        .show();
-
-                etNamaWisata.setText("");
-                imgBrowse.setImageResource(R.drawable.ic_browse);
-
-            }
-        });
 
 
     }

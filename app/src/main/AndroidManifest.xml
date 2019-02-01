@@ -66,8 +66,21 @@
         <activity
             android:name=".ProfilPerusahaan"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".CheckoutActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".CheckoutActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ListPesananUser"
+            android:label="Pesanan Saya" />
+        <activity
+            android:name=".InvoiceUser"
+            android:label="Invoice"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".TambahBuktiBayar"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".DetailPesananAdmin"
+            android:theme="@style/AppTheme.NoActionBar" ></activity>
     </application>
 
 </manifest>

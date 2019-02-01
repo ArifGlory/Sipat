@@ -13,6 +13,7 @@ public class UserModel {
     public String phone;
     public String level;
     public String email;
+    public String foto;
 
     public UserModel(){
 
@@ -50,7 +51,8 @@ public class UserModel {
         this.level = level;
     }
 
-    public UserModel(String uid, String displayName, String token, String last_login, String check, String phone,String level,String email) {
+    public UserModel(String uid, String displayName, String token, String last_login, String check, String phone,String level,
+                     String email,String foto) {
         this.uid = uid;
         this.displayName = displayName;
         this.token = token;
@@ -59,10 +61,20 @@ public class UserModel {
         this.phone = phone;
         this.level = level;
         this.email = email;
+        this.foto = foto;
     }
 
     public String getUid() {
         return uid;
+    }
+
+
+    public String getFoto() {
+        return foto;
+    }
+
+    public void setFoto(String foto) {
+        this.foto = foto;
     }
 
     public void setUid(String uid) {

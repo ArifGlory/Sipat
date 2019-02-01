@@ -46,7 +46,7 @@ public class AdapterWisata extends RecyclerView.Adapter<AdapterWisata.MyViewHold
 
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView namaWisata;
+        public TextView namaWisata,keterangan;
         public CircleImageView imgWisata;
         public CardView cv_main;
         public RelativeLayout relaList;
@@ -54,6 +54,7 @@ public class AdapterWisata extends RecyclerView.Adapter<AdapterWisata.MyViewHold
         public MyViewHolder(View view) {
             super(view);
             namaWisata = (TextView) view.findViewById(R.id.txtNamaWisata);
+            keterangan = view.findViewById(R.id.txtKeterangan);
             imgWisata = view.findViewById(R.id.imgWisata);
             cv_main = (CardView) view.findViewById(R.id.cardlist_item);
             relaList = view.findViewById(R.id.relaList);
@@ -91,6 +92,7 @@ public class AdapterWisata extends RecyclerView.Adapter<AdapterWisata.MyViewHold
             final Wisata wisata = wisataList.get(position);
 
             holder.namaWisata.setText(wisata.getNamaWisata());
+            holder.keterangan.setText(wisata.getKeterangan());
             Glide.with(mContext)
                     .load(wisata.getDownloadUrl())
                     .into(holder.imgWisata);
