@@ -23,12 +23,14 @@
                     android:layout_marginTop="45dp"
                     android:layout_gravity="center_horizontal"
                     android:layout_width="150dp"
+                    android:id="@+id/imgFoto"
                     android:layout_height="150dp"
                     android:src="@drawable/logo_pms"/>
                 <TextView
                     android:layout_marginTop="10dp"
                     android:layout_gravity="center_horizontal"
                     android:layout_width="wrap_content"
+                    android:id="@+id/txtNamaPengguna"
                     android:layout_height="wrap_content"
                     android:text="Putra Mandiri Sejahtera"
                     android:textColor="#fff"
@@ -56,12 +58,14 @@
                             android:layout_height="wrap_content"
                             android:text="Kepuasaan Anda"
                             android:textSize="20sp"
+                            android:id="@+id/txtSLogan2"
                             />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Kebanggan Kami"
                             android:textStyle="bold"
+                            android:id="@+id/txtSLogan"
                             android:textSize="20sp"
                             android:paddingTop="10dp"
                             android:textColor="@color/startblue"/>
@@ -93,6 +97,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingLeft="20dp"
+                    android:id="@+id/txtEmail"
                     android:text="putramandirisejahtera11@gmail.com"/>
             </LinearLayout>
             <LinearLayout
@@ -112,6 +117,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingLeft="20dp"
+                    android:id="@+id/txtPhone"
                     android:text="081271123370/ (0721) 8014543"/>
             </LinearLayout>
 
@@ -124,10 +130,11 @@
                 <ImageView
                     android:layout_width="36dp"
                     android:layout_height="36dp"
+                    android:id="@+id/imgAlamat"
                     android:src="@drawable/place"/>
                 <TextView
                     android:textStyle="bold"
-
+                    android:id="@+id/txtAlamat"
                     android:layout_gravity="center_vertical"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

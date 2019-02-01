@@ -21,8 +21,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.firebase.client.Firebase;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
@@ -54,6 +56,9 @@ public class BerandaActivity extends AppCompatActivity
     Intent i;
     private SweetAlertDialog pDialogLoading,pDialodInfo;
     DialogInterface.OnClickListener listener;
+    ImageView imgFoto;
+    String level,paketTour;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +86,35 @@ public class BerandaActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         View headerView = navigationView.getHeaderView(0);
         TextView txtNamaProfil = (TextView) headerView.findViewById(R.id.txtNamaUser);
+        imgFoto = headerView.findViewById(R.id.imageView);
         txtNamaProfil.setText(SharedVariable.nama);
+        headerView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                i = new Intent(getApplicationContext(),ProfilPerusahaan.class);
+                i.putExtra("isUser","1");
+                startActivity(i);
+            }
+        });
+
+        ref.child("users").child(SharedVariable.userID).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String foto = dataSnapshot.child("foto").getValue().toString();
+                if (!foto.equals("no")){
+                    Glide.with(BerandaActivity.this)
+                            .load(foto)
+                            .into(imgFoto);
+                }else {
+                    imgFoto.setImageResource(R.drawable.pemilik_kos);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
         fragmentBeranda = new FragmentBeranda();
         goToFragment(fragmentBeranda,true);
@@ -170,12 +203,28 @@ public class BerandaActivity extends AppCompatActivity
             startActivity(i);
         } else if (id == R.id.nav_tentang) {
             Intent i = new Intent(getApplicationContext(), ProfilPerusahaan.class);
+            i.putExtra("isUser","0");
             startActivity(i);
 
         } else if (id == R.id.nav_logout) {
             fAuth.signOut();
             mUserpref.setBagian("none");
             Intent i = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(i);
+        }else if (id == R.id.nav_umum) {
+            mUserpref.setBagian("Umum");
+            SharedVariable.paket = "paket_umum";
+            Intent i = new Intent(getApplicationContext(), BerandaActivity.class);
+            startActivity(i);
+        }else if (id == R.id.nav_sekolah) {
+            mUserpref.setBagian("Sekolah");
+            SharedVariable.paket = "paket_sekolah";
+            Intent i = new Intent(getApplicationContext(), BerandaActivity.class);
+            startActivity(i);
+        }else if (id == R.id.nav_instansi) {
+            mUserpref.setBagian("Instansi");
+            SharedVariable.paket = "paket_instansi";
+            Intent i = new Intent(getApplicationContext(), BerandaActivity.class);
             startActivity(i);
         }
 

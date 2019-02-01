@@ -2,7 +2,9 @@ package myproject.travelpms;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.CountDownTimer;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ProgressBar;
@@ -40,6 +42,7 @@ public class SplashActivity extends AppCompatActivity {
     UserPreference mUserpref;
     String bagian;
     private SweetAlertDialog pDialogLoading,pDialodInfo;
+    String versiApp = "1";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +65,8 @@ public class SplashActivity extends AppCompatActivity {
         pDialogLoading.setTitleText("Loading..");
         pDialogLoading.setCancelable(false);
         pDialogLoading.show();
+
+        cekVersi();
 
 
         if (fbUser != null){
@@ -115,9 +120,31 @@ public class SplashActivity extends AppCompatActivity {
             });
 
 
+
+
         }else {
             i = new Intent(SplashActivity.this, MainActivity.class);
             startActivity(i);
         }
+    }
+
+    private void cekVersi(){
+        ref.addValueEventListener(new ValueEventListener() {
+            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String versi = dataSnapshot.child("versionCheck").getValue().toString();
+
+                if (!versi.equals(versiApp)){
+                    finishAffinity();
+                    System.exit(0);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 }

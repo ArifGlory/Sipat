@@ -120,12 +120,11 @@ public class DetailPaketTour extends AppCompatActivity implements RatingDialogLi
         btnFasilitas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*new SweetAlertDialog(DetailPaketTour.this)
+                new SweetAlertDialog(DetailPaketTour.this)
                         .setTitleText("Fasilitas")
                         .setContentText(paketTour.getFasilitasPaket())
                         .setConfirmText("OK")
-                        .show();*/
-                showDialogRating();
+                        .show();
             }
         });
 

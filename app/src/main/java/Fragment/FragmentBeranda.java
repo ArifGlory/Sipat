@@ -112,31 +112,41 @@ public class FragmentBeranda extends Fragment {
                 paketTourList.clear();
                 adapterDestinasi.notifyDataSetChanged();
 
-                for (DataSnapshot child : dataSnapshot.getChildren()){
-                    String nama = child.child("namaPaket").getValue().toString();
-                    String status = child.child("statusPaket").getValue().toString();
-                    String downloadURL = child.child("downloadUrl").getValue().toString();
-                    String durasi = child.child("durasiPaket").getValue().toString();
-                    String harga = child.child("hargaPaket").getValue().toString();
-                    String jmlPeserta = child.child("jumlahPeserta").getValue().toString();
-                    String key = child.child("key").getValue().toString();
-                    String fasilitas = child.child("fasilitasPaket").getValue().toString();
+                if (dataSnapshot.exists()){
+                    for (DataSnapshot child : dataSnapshot.getChildren()){
+                        String nama = child.child("namaPaket").getValue().toString();
+                        String status = child.child("statusPaket").getValue().toString();
+                        String downloadURL = child.child("downloadUrl").getValue().toString();
+                        String durasi = child.child("durasiPaket").getValue().toString();
+                        String harga = child.child("hargaPaket").getValue().toString();
+                        String jmlPeserta = child.child("jumlahPeserta").getValue().toString();
+                        String key = child.child("key").getValue().toString();
+                        String fasilitas = child.child("fasilitasPaket").getValue().toString();
 
-                    PaketTour paketTour = new PaketTour(
-                     nama,
-                     harga,
-                     durasi,
-                     jmlPeserta,
-                     fasilitas,
-                     key,
-                     downloadURL,
-                     status
-                    );
-                    paketTourList.add(paketTour);
-                    adapterDestinasi.notifyDataSetChanged();
+                        PaketTour paketTour = new PaketTour(
+                                nama,
+                                harga,
+                                durasi,
+                                jmlPeserta,
+                                fasilitas,
+                                key,
+                                downloadURL,
+                                status
+                        );
+                        paketTourList.add(paketTour);
+                        adapterDestinasi.notifyDataSetChanged();
 
+                    }
+                    pDialogLoading.dismiss();
+                }else {
+                    pDialogLoading.dismiss();
+
+                    new SweetAlertDialog(getActivity(),SweetAlertDialog.NORMAL_TYPE)
+                            .setContentText("ga ada data")
+                            .show();
                 }
-              pDialogLoading.dismiss();
+
+
             }
 
             @Override

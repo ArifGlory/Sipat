@@ -45,6 +45,8 @@ public class DetailPesananAdmin extends AppCompatActivity {
     Uri file;
     FirebaseUser fbUser;
     Pesanan pesanan;
+    InvoiceUser invoiceUser;
+    private String destro = "0";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +57,8 @@ public class DetailPesananAdmin extends AppCompatActivity {
         ref = FirebaseDatabase.getInstance().getReference();
         fAuth = FirebaseAuth.getInstance();
         fbUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        invoiceUser = new InvoiceUser();
 
         i = getIntent();
         pesanan = (Pesanan) i.getSerializableExtra("pesanan");
@@ -154,10 +158,13 @@ public class DetailPesananAdmin extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 if (dataSnapshot.child("buktiBayar").exists()){
-                    String buktiBayar = dataSnapshot.child("buktiBayar").getValue().toString();
-                    Glide.with(DetailPesananAdmin.this)
-                            .load(buktiBayar)
-                            .into(imgBuktiBayar);
+
+                    if (destro.equals("0")){
+                        String buktiBayar = dataSnapshot.child("buktiBayar").getValue().toString();
+                        Glide.with(DetailPesananAdmin.this)
+                                .load(buktiBayar)
+                                .into(imgBuktiBayar);
+                    }
 
                 }
                 String statusPesanan = dataSnapshot.child("status").getValue().toString();
@@ -176,5 +183,17 @@ public class DetailPesananAdmin extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        destro = "1";
+        super.onDestroy();
+    }
+
+    @Override
+    protected void onStart() {
+        destro = "0";
+        super.onStart();
     }
 }

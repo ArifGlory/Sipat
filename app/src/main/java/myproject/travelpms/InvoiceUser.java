@@ -63,6 +63,7 @@ public class InvoiceUser extends AppCompatActivity {
     Uri file;
     FirebaseUser fbUser;
     Pesanan pesanan;
+    private String destro = "0";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -152,11 +153,15 @@ public class InvoiceUser extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 if (dataSnapshot.child("buktiBayar").exists()){
-                    String buktiBayar = dataSnapshot.child("buktiBayar").getValue().toString();
-                    Glide.with(InvoiceUser.this)
-                            .load(buktiBayar)
-                            .into(imgBuktiBayar);
-                    btnUpload.setText("Ubah Bukti Bayar");
+
+                    if (destro.equals("0")){
+                        String buktiBayar = dataSnapshot.child("buktiBayar").getValue().toString();
+                        Glide.with(InvoiceUser.this)
+                                .load(buktiBayar)
+                                .into(imgBuktiBayar);
+                        btnUpload.setText("Ubah Bukti Bayar");
+                    }
+
                 }
 
             }
@@ -298,5 +303,17 @@ public class InvoiceUser extends AppCompatActivity {
         }
 
         return strMimeType;
+    }
+
+    @Override
+    protected void onDestroy() {
+        destro = "1";
+        super.onDestroy();
+    }
+
+    @Override
+    protected void onStart() {
+        destro = "0";
+        super.onStart();
     }
 }

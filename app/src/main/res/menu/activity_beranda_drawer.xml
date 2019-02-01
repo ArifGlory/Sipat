@@ -13,7 +13,20 @@
         <item
             android:id="@+id/nav_tentang"
             android:icon="@drawable/info2"
-            android:title="Tentang" />
+            android:title="Tentang Perusahaan" />
+
+        <item
+            android:id="@+id/nav_umum"
+            android:title="Paket Umum" />
+
+        <item
+            android:id="@+id/nav_instansi"
+            android:title="Paket Instansi" />
+
+        <item
+            android:id="@+id/nav_sekolah"
+            android:title="Paket Sekolah" />
+
         <item
             android:id="@+id/nav_logout"
             android:title="Logout" />

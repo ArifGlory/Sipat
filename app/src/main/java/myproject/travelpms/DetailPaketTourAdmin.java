@@ -2,6 +2,7 @@ package myproject.travelpms;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -41,7 +42,7 @@ public class DetailPaketTourAdmin extends AppCompatActivity {
     RecyclerView recyclerView;
     AdapterWisata adapterWisata;
     Intent i;
-    TextView namaPaket,durasi,jmlPeserta,harga;
+    TextView namaPaket,durasi,jmlPeserta,harga,txtRating;
     ImageView backdrop;
     Button btnFasilitas;
     int hargaPaket;
@@ -51,6 +52,9 @@ public class DetailPaketTourAdmin extends AppCompatActivity {
     private FirebaseAuth fAuth;
     private FirebaseAuth.AuthStateListener fStateListener;
     public static String keyPaket,namaPaketTour;
+    PaketTour paketTour;
+    ArrayList<Integer> arrayRating = new ArrayList<>();
+    AppBarLayout appbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +77,8 @@ public class DetailPaketTourAdmin extends AppCompatActivity {
         btnFasilitas = findViewById(R.id.btnFasilitas);
         jmlPeserta = findViewById(R.id.txtJmlPeserta);
         harga = findViewById(R.id.txtHarga);
+        txtRating = findViewById(R.id.txtRating);
+        appbar = findViewById(R.id.appbar);
 
         btnTambah = findViewById(R.id.btnCreate);
 
@@ -85,6 +91,7 @@ public class DetailPaketTourAdmin extends AppCompatActivity {
         durasi.setText("Durasi : "+paketTour.getDurasiPaket()+" hari");
         jmlPeserta.setText("Maksimal Peserta : "+paketTour.getJumlahPeserta()+" Orang");
         harga.setText("Harga : "+formatRupiah.format((double) hargaPaket));
+        txtRating.setText("-");
 
         Glide.with(this)
                 .load(paketTour.getDownloadUrl())
@@ -152,6 +159,32 @@ public class DetailPaketTourAdmin extends AppCompatActivity {
                 }
 
                 pDialogLoading.dismiss();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        ref.child("pakettour").child(SharedVariable.paket).child(paketTour.getKey()).child("ratingList").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                arrayRating.clear();
+                int totalRating = 0;
+
+                if (dataSnapshot.exists()){
+                    for (DataSnapshot child : dataSnapshot.getChildren()){
+                        String rate = child.child("rate").getValue().toString();
+                        int rating = Integer.parseInt(rate);
+                        arrayRating.add(rating);
+                        totalRating = totalRating + rating;
+                    }
+                    int showRating = totalRating/arrayRating.size();
+                    txtRating.setText(""+showRating);
+                }
+
             }
 
             @Override
