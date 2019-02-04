@@ -21,6 +21,7 @@ import java.util.List;
 
 import Adapter.AdapterListPesanan;
 import Kelas.Pesanan;
+import Kelas.SharedVariable;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class ListPesananUser extends AppCompatActivity {
@@ -73,21 +74,24 @@ public class ListPesananUser extends AppCompatActivity {
                     String namaPengguna = child.child("namaPengguna").getValue().toString();
                     String keterangan = child.child("keterangan").getValue().toString();
 
-                    Pesanan pesanan = new Pesanan(
-                            idUser,
-                            idPaket,
-                            tanggal,
-                            keterangan,
-                            keyPesanan,
-                            jenisPaket,
-                            status,
-                            namaPaket,
-                            namaPengguna,
-                            foto
-                    );
+                    if (idUser.equals(SharedVariable.userID)){
+                        Pesanan pesanan = new Pesanan(
+                                idUser,
+                                idPaket,
+                                tanggal,
+                                keterangan,
+                                keyPesanan,
+                                jenisPaket,
+                                status,
+                                namaPaket,
+                                namaPengguna,
+                                foto
+                        );
 
-                    listPesanan.add(pesanan);
-                    adapter.notifyDataSetChanged();
+                        listPesanan.add(pesanan);
+                        adapter.notifyDataSetChanged();
+                    }
+
                 }
 
                 pDialogLoading.dismiss();

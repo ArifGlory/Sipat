@@ -79,8 +79,17 @@
         <activity
             android:name=".TambahBuktiBayar"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".DetailPesananAdmin"
-            android:theme="@style/AppTheme.NoActionBar" ></activity>
+        <activity
+            android:name=".DetailPesananAdmin"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UbahPaketTour"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".DaftarPaket"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".DetailDaftarPaket"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

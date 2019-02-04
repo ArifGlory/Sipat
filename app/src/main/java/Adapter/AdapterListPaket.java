@@ -29,6 +29,7 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 import de.hdodenhof.circleimageview.CircleImageView;
 import myproject.travelpms.DetailPaketTourAdmin;
 import myproject.travelpms.R;
+import myproject.travelpms.UbahPaketTour;
 
 /**
  * Created by Ravi Tamada on 18/05/16.
@@ -132,6 +133,9 @@ public class AdapterListPaket extends RecyclerView.Adapter<AdapterListPaket.MyVi
                                 .setCancelButton("Ubah", new SweetAlertDialog.OnSweetClickListener() {
                                     @Override
                                     public void onClick(SweetAlertDialog sDialog) {
+                                        Intent intent = new Intent(mContext.getApplicationContext(),UbahPaketTour.class);
+                                        intent.putExtra("paketTour", paketTour);
+                                        mContext.startActivity(intent);
                                         sDialog.dismissWithAnimation();
                                     }
                                 })

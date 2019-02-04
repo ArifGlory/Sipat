@@ -16,4 +16,9 @@
         android:icon="@drawable/pemilik_kos"
         android:title="Pengguna" />
 
+    <item
+        android:id="@+id/navigation_laporan"
+        android:icon="@drawable/ic_menu_gallery"
+        android:title="Laporan" />
+
 </menu>

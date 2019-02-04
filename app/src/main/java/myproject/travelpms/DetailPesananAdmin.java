@@ -32,7 +32,7 @@ public class DetailPesananAdmin extends AppCompatActivity {
     Button btnTerima,btnTolak;
     TextView txtNamaPaket,txtStatus,txtTanggal,txtHarga,txtJenis;
     ImageView imgFoto,imgBuktiBayar;
-    Button btnUpload;
+    Button btnUpload,btnDetailPeserta;
     Intent i;
     private String namaPaket,idPaket,status,tanggal,jenis,keyPesanan;
     DatabaseReference ref,refUser;
@@ -81,6 +81,7 @@ public class DetailPesananAdmin extends AppCompatActivity {
         btnUpload = findViewById(R.id.btnUpload);
         btnTerima = findViewById(R.id.btnTerima);
         btnTolak = findViewById(R.id.btnTolak);
+        btnDetailPeserta = findViewById(R.id.btnDetailPeserta);
 
         txtNamaPaket.setText(namaPaket);
         txtTanggal.setText(tanggal);
@@ -125,6 +126,14 @@ public class DetailPesananAdmin extends AppCompatActivity {
                         .setTitleText("Sukses!")
                         .setContentText("Status pesanan paket diubah menjadi Ditolak")
                         .show();
+            }
+        });
+        btnDetailPeserta.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                i = new Intent(getApplicationContext(),DetailDaftarPaket.class);
+                i.putExtra("keyPesanan",keyPesanan);
+                startActivity(i);
             }
         });
 

@@ -243,6 +243,7 @@ public class TambahWisata extends AppCompatActivity {
                         .show();
 
                 etNamaWisata.setText("");
+                etKeterangan.setText("");
                 imgBrowse.setImageResource(R.drawable.ic_browse);
 
             }

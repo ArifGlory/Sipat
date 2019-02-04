@@ -32,6 +32,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
+import Kelas.DaftarPaketKelas;
 import Kelas.Pesanan;
 import Kelas.SharedVariable;
 import cn.pedant.SweetAlert.SweetAlertDialog;
@@ -49,6 +50,8 @@ public class CheckoutActivity extends AppCompatActivity {
     FirebaseUser fbUser;
     Intent i;
     private String keyPaket,foto;
+    String keyPesanan = "";
+    DaftarPaketKelas daftarPaketKelas;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +66,7 @@ public class CheckoutActivity extends AppCompatActivity {
         ref = FirebaseDatabase.getInstance().getReference();
         i = getIntent();
         keyPaket = i.getStringExtra("keyPaket");
+        daftarPaketKelas = (DaftarPaketKelas) i.getSerializableExtra("daftarPaket");
 
 
         btnSimpan = findViewById(R.id.btnSimpan);
@@ -70,7 +74,6 @@ public class CheckoutActivity extends AppCompatActivity {
         etKeterangan = findViewById(R.id.etKeterangan);
         etTanggal = findViewById(R.id.etTanggal);
         etTanggal.setEnabled(false);
-        etKeterangan.setText(keyPaket);
 
         pDialogLoading = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
         pDialogLoading.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
@@ -145,13 +148,13 @@ public class CheckoutActivity extends AppCompatActivity {
         if (ket.equals("") || ket.length()==0){
             ket = "-";
         }
-        String key = ref.child("pesanan").push().getKey();
+        keyPesanan = ref.child("pesanan").push().getKey();
         Pesanan pesanan = new Pesanan(
                 SharedVariable.userID,
                 SharedVariable.keyPaketUser,
                 etTanggal.getText().toString(),
                 ket,
-                key,
+                keyPesanan,
                 SharedVariable.paket,
                 "M",
                 SharedVariable.namaPaketPesanan,
@@ -160,12 +163,13 @@ public class CheckoutActivity extends AppCompatActivity {
         );
 
         Task initTask;
-       initTask =  ref.child("pesanan").child(key).setValue(pesanan);
+       initTask =  ref.child("pesanan").child(keyPesanan).setValue(pesanan);
 
-        initTask =  ref.child("pesanan").child(key).setValue(pesanan);
+        initTask =  ref.child("pesanan").child(keyPesanan).setValue(pesanan);
         initTask.addOnSuccessListener(new OnSuccessListener() {
             @Override
             public void onSuccess(Object o) {
+                ref.child("pesanan").child(keyPesanan).child("daftarPaket").setValue(daftarPaketKelas);
                 new SweetAlertDialog(CheckoutActivity.this, SweetAlertDialog.SUCCESS_TYPE)
                         .setTitleText("Pemesanan berhasil!")
                         .setContentText("Silakan cek perkembangan pesanan anda di menu 'Paket Tour Saya' ")
@@ -186,14 +190,14 @@ public class CheckoutActivity extends AppCompatActivity {
             }
         });
 
-
-
-
-
-
-
     }
 
+    @Override
+    public void onBackPressed() {
+        i = new Intent(getApplicationContext(),BerandaActivity.class);
+        startActivity(i);
+        super.onBackPressed();
+    }
 
     private void showDateDialog(){
 

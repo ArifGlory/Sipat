@@ -42,7 +42,7 @@
                         android:layout_height="match_parent"
                         android:fitsSystemWindows="true"
                         android:alpha="0.6"
-                        android:background="@drawable/bali"
+                        android:background="@drawable/timtour"
                         android:scaleType="centerCrop"
                         app:layout_collapseMode="parallax" />
 
@@ -63,7 +63,7 @@
                             android:textStyle="bold"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Wisata Dunia"
+                            android:text="Putra Mandiri Sejahtera"
                             android:id="@+id/txtStatus"
                             android:textColor="@android:color/white"
                             android:textSize="20dp" />
@@ -72,7 +72,7 @@
                             android:id="@+id/love_music"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Pulau Bali"
+                            android:text="Our Team"
                             android:textColor="@color/white"
                             android:textStyle="bold"
                             android:textSize="30dp" />
@@ -81,21 +81,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content">
 
-                            <ImageView
-                                android:layout_width="18dp"
-                                android:layout_height="18dp"
-                                android:id="@+id/imgTime"
-                                android:src="@drawable/timer"/>
 
-                            <TextView
-                                android:textStyle="bold"
-                                android:layout_marginLeft="3dp"
-                                android:layout_toRightOf="@+id/imgTime"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text=" Durasi : 10 Hari"
-                                android:textColor="@android:color/white"
-                                android:textSize="16dp" />
+
 
                         </RelativeLayout>
 

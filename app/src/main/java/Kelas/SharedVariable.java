@@ -12,6 +12,7 @@ import java.util.List;
 public class SharedVariable {
     public static String nama = "Not Logged in";
     public static String email = "Email";
+    public static String phone = "phone";
     public static String level = "level";
     public static String paket = "paket";
     public static String isAdmin = "false";

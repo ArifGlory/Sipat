@@ -26,6 +26,7 @@ import Fragment.FragmentBeranda;
 import Fragment.FragmentPaketTour;
 import Fragment.FragmentListPengguna;
 import Fragment.FragmentListPesanan;
+import Fragment.FragmentLaporan;
 import Kelas.UserPreference;
 
 public class AdminActivity extends AppCompatActivity {
@@ -40,6 +41,7 @@ public class AdminActivity extends AppCompatActivity {
     UserPreference mUserpref;
     FragmentListPengguna fragmentListPengguna;
     FragmentListPesanan fragmentListPesanan;
+    FragmentLaporan fragmentLaporan;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -58,6 +60,10 @@ public class AdminActivity extends AppCompatActivity {
                 case R.id.navigation_pengguna:
                     fragmentListPengguna = new FragmentListPengguna();
                     goToFragment(fragmentListPengguna,true);
+                    return true;
+                case R.id.navigation_laporan:
+                    fragmentLaporan = new FragmentLaporan();
+                    goToFragment(fragmentLaporan,true);
                     return true;
             }
             return false;

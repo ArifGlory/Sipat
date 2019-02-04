@@ -38,6 +38,7 @@ import java.util.List;
 import java.util.Locale;
 
 import Adapter.AdapterWisata;
+import Kelas.DaftarPaketKelas;
 import Kelas.PaketTour;
 import Kelas.Rating;
 import Kelas.SharedVariable;
@@ -141,8 +142,9 @@ public class DetailPaketTour extends AppCompatActivity implements RatingDialogLi
                 String keyPaket = txtKey.getText().toString();
                 SharedVariable.keyPaketUser = keyPaket;
                 SharedVariable.namaPaketPesanan = paketTour.getNamaPaket();
-                Intent intent = new Intent(getApplicationContext(),CheckoutActivity.class);
-                i.putExtra("keyPaket",keyPaket);
+                Intent intent = new Intent(getApplicationContext(), DaftarPaket.class);
+                intent.putExtra("keyPaket",keyPaket);
+                intent.putExtra("namaPaket",paketTour.getNamaPaket());
                 startActivity(intent);
             }
         });
