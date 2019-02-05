@@ -88,8 +88,14 @@
         <activity
             android:name=".DaftarPaket"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".DetailDaftarPaket"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".DetailDaftarPaket"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".LaporanPemesananActivity"
+            android:label="Laporan Pemesanan" />
+        <activity android:name=".LaporanPenggunaActivity"
+            android:label="Laporan Pengguna"></activity>
     </application>
 
 </manifest>
