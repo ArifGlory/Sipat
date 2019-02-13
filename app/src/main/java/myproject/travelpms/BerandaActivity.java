@@ -3,6 +3,8 @@ package myproject.travelpms;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
@@ -11,6 +13,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -58,7 +61,8 @@ public class BerandaActivity extends AppCompatActivity
     DialogInterface.OnClickListener listener;
     ImageView imgFoto;
     String level,paketTour;
-
+    ActionBarDrawerToggle mDrawerToogle;
+    DrawerLayout drawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +72,7 @@ public class BerandaActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         toolbar.setTitle("");
 
+
         Firebase.setAndroidContext(this);
         FirebaseApp.initializeApp(getApplicationContext());
         ref = FirebaseDatabase.getInstance().getReference();
@@ -76,11 +81,24 @@ public class BerandaActivity extends AppCompatActivity
         mUserpref = new UserPreference(this);
 
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerToogle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
+        mDrawerToogle.setDrawerIndicatorEnabled(false);
+        Drawable drawable = ResourcesCompat.getDrawable(getResources(), R.drawable.drawer_icon2, this.getTheme());
+        mDrawerToogle.setHomeAsUpIndicator(R.drawable.drawer_icon3);
+        drawer.addDrawerListener(mDrawerToogle);
+        mDrawerToogle.syncState();
+        mDrawerToogle.setToolbarNavigationClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (drawer.isDrawerVisible(GravityCompat.START)) {
+                    drawer.closeDrawer(GravityCompat.START);
+                } else {
+                    drawer.openDrawer(GravityCompat.START);
+                }
+            }
+        });
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
