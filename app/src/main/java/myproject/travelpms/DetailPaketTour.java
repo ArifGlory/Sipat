@@ -52,7 +52,7 @@ public class DetailPaketTour extends AppCompatActivity implements RatingDialogLi
     Intent i;
     TextView namaPaket,durasi,jmlPeserta,harga,txtKey,txtRating;
     ImageView backdrop,imgRate;
-    Button btnFasilitas;
+    Button btnFasilitas,btnItinenary,btnUlasan;
     int hargaPaket;
     private SweetAlertDialog pDialogInfo,pDialogLoading;
     private List<Wisata> wisataList;
@@ -91,6 +91,8 @@ public class DetailPaketTour extends AppCompatActivity implements RatingDialogLi
         relaRating = findViewById(R.id.relaRating);
         imgRate = findViewById(R.id.imgRate);
         appbar = findViewById(R.id.appbar);
+        btnItinenary = findViewById(R.id.btnItinenary);
+        btnUlasan = findViewById(R.id.btnUlasan);
 
         NumberFormat format = NumberFormat.getCurrencyInstance(Locale.ENGLISH);
         Locale localeID = new Locale("in", "ID");
@@ -126,6 +128,24 @@ public class DetailPaketTour extends AppCompatActivity implements RatingDialogLi
                         .setContentText(paketTour.getFasilitasPaket())
                         .setConfirmText("OK")
                         .show();
+            }
+        });
+        btnItinenary.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext(),ItitenaryActivity.class);
+                i.putExtra("key",paketTour.getKey());
+                i.putExtra("namaPaket",paketTour.getNamaPaket());
+                startActivity(i);
+            }
+        });
+        btnUlasan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext(),UlasanActivity.class);
+                i.putExtra("key",paketTour.getKey());
+                i.putExtra("namaPaket",paketTour.getNamaPaket());
+                startActivity(i);
             }
         });
 

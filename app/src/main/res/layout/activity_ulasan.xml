@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/viewBg"
+    tools:context=".ItitenaryActivity">
+
+
+    <android.support.v7.widget.RecyclerView
+        android:padding="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_below="@+id/txtJudul"
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:layout_above="@+id/relaKomentar"
+        android:scrollbars="vertical" />
+
+    <RelativeLayout
+        android:layout_alignParentBottom="true"
+        android:id="@+id/relaKomentar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/etKomentar"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:hint="Berikan ulasan.."
+            android:inputType="textEmailAddress"
+            android:padding="10dp"
+            android:layout_toLeftOf="@+id/btnKirim"
+            android:textStyle="normal"
+            android:textColor="@color/black2"
+            android:textColorHint="@color/black2"
+            android:textSize="15sp" />
+
+        <Button
+            android:id="@+id/btnKirim"
+            android:text="Kirim"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:textSize="14dp"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:layout_width="64dp"
+            android:layout_height="48dp"
+            android:gravity="center"
+            android:layout_gravity="bottom" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

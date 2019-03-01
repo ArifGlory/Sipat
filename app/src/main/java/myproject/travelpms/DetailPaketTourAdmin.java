@@ -9,7 +9,10 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -44,7 +47,7 @@ public class DetailPaketTourAdmin extends AppCompatActivity {
     Intent i;
     TextView namaPaket,durasi,jmlPeserta,harga,txtRating;
     ImageView backdrop;
-    Button btnFasilitas;
+    Button btnFasilitas,btnItinenary,btnUlasan;
     int hargaPaket;
     private SweetAlertDialog pDialogInfo,pDialogLoading;
     private List<Wisata> wisataList;
@@ -55,6 +58,9 @@ public class DetailPaketTourAdmin extends AppCompatActivity {
     PaketTour paketTour;
     ArrayList<Integer> arrayRating = new ArrayList<>();
     AppBarLayout appbar;
+
+    private Boolean isFabOpen = false;
+    private Animation fab_open,fab_close,rotate_forward,rotate_backward;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,8 +85,14 @@ public class DetailPaketTourAdmin extends AppCompatActivity {
         harga = findViewById(R.id.txtHarga);
         txtRating = findViewById(R.id.txtRating);
         appbar = findViewById(R.id.appbar);
-
         btnTambah = findViewById(R.id.btnCreate);
+        btnItinenary = findViewById(R.id.btnItinenary);
+        btnUlasan = findViewById(R.id.btnUlasan);
+
+        fab_open = AnimationUtils.loadAnimation(this,R.anim.fab_open);
+        fab_close = AnimationUtils.loadAnimation(this,R.anim.fab_close);
+        rotate_forward = AnimationUtils.loadAnimation(this,R.anim.rotate_forward);
+        rotate_backward = AnimationUtils.loadAnimation(this,R.anim.rotate_backward);
 
         NumberFormat format = NumberFormat.getCurrencyInstance(Locale.ENGLISH);
         Locale localeID = new Locale("in", "ID");
@@ -124,6 +136,25 @@ public class DetailPaketTourAdmin extends AppCompatActivity {
                 startActivity(i);
             }
         });
+        btnItinenary.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext(),ItitenaryActivity.class);
+                i.putExtra("key",paketTour.getKey());
+                i.putExtra("namaPaket",paketTour.getNamaPaket());
+                startActivity(i);
+            }
+        });
+        btnUlasan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext(),UlasanActivity.class);
+                i.putExtra("key",paketTour.getKey());
+                i.putExtra("namaPaket",paketTour.getNamaPaket());
+                startActivity(i);
+            }
+        });
+
 
         pDialogLoading = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
         pDialogLoading.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
@@ -193,4 +224,6 @@ public class DetailPaketTourAdmin extends AppCompatActivity {
             }
         });
     }
+
+
 }

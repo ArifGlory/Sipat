@@ -16,7 +16,7 @@ public class SharedVariable {
     public static String level = "level";
     public static String paket = "paket";
     public static String isAdmin = "false";
-    public static String fotoPsayur = "no";
+    public static String fotoUser = "no";
     public static String keyPaketUser = "no";
     public static String namaPaketPesanan = "no";
     public static String userID = "";

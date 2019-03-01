@@ -83,11 +83,13 @@ public class SplashActivity extends AppCompatActivity {
                     String level = dataSnapshot.child("level").getValue().toString();
                     String phone = dataSnapshot.child("phone").getValue().toString();
                     String nama = dataSnapshot.child("displayName").getValue().toString();
+                    String foto = dataSnapshot.child("foto").getValue().toString();
 
                     SharedVariable.email = email;
                     SharedVariable.level = level;
                     SharedVariable.phone = phone;
                     SharedVariable.nama = nama;
+                    SharedVariable.fotoUser = foto;
 
                     mUserpref.setBagian(level);
                     mUserpref.setEmail(email);
