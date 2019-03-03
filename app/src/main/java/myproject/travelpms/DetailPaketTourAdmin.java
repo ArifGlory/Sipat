@@ -155,6 +155,15 @@ public class DetailPaketTourAdmin extends AppCompatActivity {
                 startActivity(i);
             }
         });
+        txtDiskon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext(),DiskonActivity.class);
+                i.putExtra("jenis",SharedVariable.paket);
+                i.putExtra("key",keyPaket);
+                startActivity(i);
+            }
+        });
 
 
         pDialogLoading = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
@@ -239,9 +248,10 @@ public class DetailPaketTourAdmin extends AppCompatActivity {
 
 
                     Log.d("diskon:",diskon);
-                    txtDiskon.setText("Diskon "+formatRupiah.format((double) diskonPaket));
+                    String strDiskon = String.valueOf(formatRupiah.format((double) diskonPaket));
+                            txtDiskon.setText("Diskon "+strDiskon + " | Kelola Diskon");
                 }else {
-                    txtDiskon.setText("belum ada diskon");
+                    txtDiskon.setText("Tambahkan Diskon");
                 }
             }
 

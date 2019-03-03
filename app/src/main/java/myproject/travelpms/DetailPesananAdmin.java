@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -30,7 +31,7 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 public class DetailPesananAdmin extends AppCompatActivity {
 
     Button btnTerima,btnTolak;
-    TextView txtNamaPaket,txtStatus,txtTanggal,txtHarga,txtJenis;
+    TextView txtNamaPaket,txtStatus,txtTanggal,txtHarga,txtJenis,txtDiskon,txtTotal,txtJmlPenumpang;
     ImageView imgFoto,imgBuktiBayar;
     Button btnUpload,btnDetailPeserta;
     Intent i;
@@ -47,6 +48,7 @@ public class DetailPesananAdmin extends AppCompatActivity {
     Pesanan pesanan;
     InvoiceUser invoiceUser;
     private String destro = "0";
+    private int diskonPaket;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +84,9 @@ public class DetailPesananAdmin extends AppCompatActivity {
         btnTerima = findViewById(R.id.btnTerima);
         btnTolak = findViewById(R.id.btnTolak);
         btnDetailPeserta = findViewById(R.id.btnDetailPeserta);
+        txtDiskon = findViewById(R.id.txtDiskon);
+        txtTotal = findViewById(R.id.txtTotal);
+        txtJmlPenumpang = findViewById(R.id.txtJmlPenumpang);
 
         txtNamaPaket.setText(namaPaket);
         txtTanggal.setText(tanggal);
@@ -137,6 +142,7 @@ public class DetailPesananAdmin extends AppCompatActivity {
             }
         });
 
+
         ref.child("pakettour").child(jenis).child(idPaket).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -152,6 +158,38 @@ public class DetailPesananAdmin extends AppCompatActivity {
                 NumberFormat formatRupiah = NumberFormat.getCurrencyInstance(localeID);
                 int hargaPaket = Integer.parseInt(harga);
                 txtHarga.setText(""+formatRupiah.format((double) hargaPaket));
+
+                pDialogLoading.dismiss();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        ref.child("pakettour").child(jenis).child(idPaket).child("diskon").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                pDialogLoading.show();
+
+                if (dataSnapshot.exists()){
+                    String diskon = dataSnapshot.getValue().toString();
+
+                    NumberFormat format = NumberFormat.getCurrencyInstance(Locale.ENGLISH);
+                    Locale localeID = new Locale("in", "ID");
+                    NumberFormat formatRupiah = NumberFormat.getCurrencyInstance(localeID);
+                    diskonPaket = Integer.parseInt(diskon);
+
+
+                    Log.d("diskon:",diskon);
+                    txtDiskon.setText(""+formatRupiah.format((double) diskonPaket) + "");
+
+
+                }else {
+                    txtDiskon.setText("Rp. 0");
+
+                }
 
                 pDialogLoading.dismiss();
             }
@@ -184,6 +222,17 @@ public class DetailPesananAdmin extends AppCompatActivity {
                 }else if (statusPesanan.equals("D")){
                     txtStatus.setText("Status : Ditolak");
                 }
+
+                String totalHarga = dataSnapshot.child("totalHarga").getValue().toString();
+                String jmlPenumpang = dataSnapshot.child("jmlPenumpang").getValue().toString();
+
+                NumberFormat format = NumberFormat.getCurrencyInstance(Locale.ENGLISH);
+                Locale localeID = new Locale("in", "ID");
+                NumberFormat formatRupiah = NumberFormat.getCurrencyInstance(localeID);
+                int total = Integer.parseInt(totalHarga);
+                txtTotal.setText(""+formatRupiah.format((double) total));
+
+                txtJmlPenumpang.setText(jmlPenumpang + " Orang");
 
             }
 

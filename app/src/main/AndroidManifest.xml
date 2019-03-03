@@ -75,8 +75,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".CheckoutActivity"
-            android:label="Checkout"
-            />
+            android:label="Checkout" />
         <activity
             android:name=".ListPesananUser"
             android:label="Pesanan Saya" />
@@ -115,9 +114,11 @@
                 android:name="com.google.android.geo.API_KEY"
                 android:value="@string/google_maps_key" />
         </activity>
-        <activity android:name=".UlasanActivity"
-            android:label="Ulasan Pelanggan">
-        </activity>
+        <activity
+            android:name=".UlasanActivity"
+            android:label="Ulasan Pelanggan"></activity>
+        <activity android:name=".DiskonActivity"
+            android:label="Kelola Diskon"></activity>
     </application>
 
 </manifest>
