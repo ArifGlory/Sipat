@@ -13,6 +13,24 @@ public class Pesanan implements Serializable {
     public String namaPaket;
     public String namaPengguna;
     public String foto;
+    public String jmlPenumpang;
+    public String totalHarga;
+
+    public String getJmlPenumpang() {
+        return jmlPenumpang;
+    }
+
+    public void setJmlPenumpang(String jmlPenumpang) {
+        this.jmlPenumpang = jmlPenumpang;
+    }
+
+    public String getTotalHarga() {
+        return totalHarga;
+    }
+
+    public void setTotalHarga(String totalHarga) {
+        this.totalHarga = totalHarga;
+    }
 
     public String getNamaPaket() {
         return namaPaket;
@@ -61,7 +79,7 @@ public class Pesanan implements Serializable {
     }
 
     public Pesanan(String idUser, String idPaket, String tanggal, String keterangan, String key,String jenisPaket,String status
-                ,String namaPaket,String namaPengguna, String foto) {
+                ,String namaPaket,String namaPengguna, String foto,String jmlPenumpang,String totalHarga) {
         this.idUser = idUser;
         this.idPaket = idPaket;
         this.tanggal = tanggal;
@@ -72,6 +90,8 @@ public class Pesanan implements Serializable {
         this.namaPaket = namaPaket;
         this.namaPengguna = namaPengguna;
         this.foto = foto;
+        this.jmlPenumpang = jmlPenumpang;
+        this.totalHarga = totalHarga;
     }
 
     public String getIdUser() {

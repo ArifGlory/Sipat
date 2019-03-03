@@ -7,11 +7,14 @@ import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -28,6 +31,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
@@ -40,7 +44,8 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 public class CheckoutActivity extends AppCompatActivity {
 
     Button btnTanggal,btnSimpan;
-    EditText etTanggal,etKeterangan;
+    EditText etTanggal,etKeterangan,etJmlPenumpang;
+    TextView txtJmlPenumpang,txtHarga,txtDiskon;
     private DatePickerDialog datePickerDialog;
     private SimpleDateFormat dateFormatter;
     private SweetAlertDialog pDialogLoading,pDialodInfo;
@@ -52,6 +57,7 @@ public class CheckoutActivity extends AppCompatActivity {
     private String keyPaket,foto;
     String keyPesanan = "";
     DaftarPaketKelas daftarPaketKelas;
+    private int hargaPaket,diskon,total,hargaNew;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,13 +79,31 @@ public class CheckoutActivity extends AppCompatActivity {
         btnTanggal = findViewById(R.id.btnTanggal);
         etKeterangan = findViewById(R.id.etKeterangan);
         etTanggal = findViewById(R.id.etTanggal);
+        etJmlPenumpang = findViewById(R.id.etJmlPenumpang);
+        txtJmlPenumpang = findViewById(R.id.txtJmlPenumpang);
+        txtHarga = findViewById(R.id.txtHarga);
+        txtDiskon = findViewById(R.id.txtDiskon);
+
         etTanggal.setEnabled(false);
+        txtJmlPenumpang.setText("1");
+
+        diskon = Integer.parseInt(SharedVariable.tempDiskon);
+        total = hargaPaket - diskon;
+
 
         pDialogLoading = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
         pDialogLoading.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
         pDialogLoading.setTitleText("Loading..");
         pDialogLoading.setCancelable(false);
         pDialogLoading.show();
+
+        NumberFormat format = NumberFormat.getCurrencyInstance(Locale.ENGLISH);
+        Locale localeID = new Locale("in", "ID");
+        NumberFormat formatRupiah = NumberFormat.getCurrencyInstance(localeID);
+        hargaPaket = Integer.parseInt(SharedVariable.tempHarga);
+        txtHarga.setText(""+formatRupiah.format((double) hargaPaket));
+        txtDiskon.setText(""+formatRupiah.format((double) diskon));
+        hargaNew = hargaPaket;
 
         dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
         btnTanggal.setOnClickListener(new View.OnClickListener() {
@@ -92,6 +116,38 @@ public class CheckoutActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 checkValidation();
+            }
+        });
+
+        etJmlPenumpang.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() != 0){
+                    NumberFormat format = NumberFormat.getCurrencyInstance(Locale.ENGLISH);
+                    Locale localeID = new Locale("in", "ID");
+                    NumberFormat formatRupiah = NumberFormat.getCurrencyInstance(localeID);
+
+                    txtJmlPenumpang.setText(s);
+
+                    String jml = String.valueOf(s);
+                    int jmlPenumpang = Integer.parseInt(jml);
+                    hargaNew = hargaPaket * jmlPenumpang;
+                    txtHarga.setText(""+formatRupiah.format((double) hargaNew));
+                    total = hargaNew - diskon;
+                }else {
+                    txtHarga.setText("Rp. 0");
+                    txtJmlPenumpang.setText("0");
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
 
@@ -125,10 +181,12 @@ public class CheckoutActivity extends AppCompatActivity {
 
     private void checkValidation(){
         String getTanggal = etTanggal.getText().toString();
+        String getJmlPenumpang = etJmlPenumpang.getText().toString();
 
         matikanKomponen();
 
-        if (getTanggal.equals("") || getTanggal.length() == 0
+        if (getTanggal.equals("") || getTanggal.length() == 0 ||
+                getJmlPenumpang.equals("") || getJmlPenumpang.length() == 0
                 ) {
 
             new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
@@ -149,6 +207,8 @@ public class CheckoutActivity extends AppCompatActivity {
             ket = "-";
         }
         keyPesanan = ref.child("pesanan").push().getKey();
+        String totalHarga = String.valueOf(total);
+
         Pesanan pesanan = new Pesanan(
                 SharedVariable.userID,
                 SharedVariable.keyPaketUser,
@@ -159,7 +219,9 @@ public class CheckoutActivity extends AppCompatActivity {
                 "M",
                 SharedVariable.namaPaketPesanan,
                 SharedVariable.nama,
-                foto
+                foto,
+                etJmlPenumpang.getText().toString(),
+                totalHarga
         );
 
         Task initTask;
@@ -177,7 +239,12 @@ public class CheckoutActivity extends AppCompatActivity {
 
                 etKeterangan.setText("");
                 etTanggal.setText("");
+                etJmlPenumpang.setText("");
+                txtJmlPenumpang.setText("1");
                 pDialogLoading.dismiss();
+
+                Intent intent = new Intent(getApplicationContext(),ListPesananUser.class);
+                startActivity(intent);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override

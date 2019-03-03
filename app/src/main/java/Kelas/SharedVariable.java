@@ -15,6 +15,8 @@ public class SharedVariable {
     public static String phone = "phone";
     public static String level = "level";
     public static String paket = "paket";
+    public static String tempHarga = "0";
+    public static String tempDiskon = "0";
     public static String isAdmin = "false";
     public static String fotoUser = "no";
     public static String keyPaketUser = "no";

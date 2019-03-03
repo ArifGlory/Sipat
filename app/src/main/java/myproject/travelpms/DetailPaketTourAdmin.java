@@ -45,10 +45,10 @@ public class DetailPaketTourAdmin extends AppCompatActivity {
     RecyclerView recyclerView;
     AdapterWisata adapterWisata;
     Intent i;
-    TextView namaPaket,durasi,jmlPeserta,harga,txtRating;
+    TextView namaPaket,durasi,jmlPeserta,harga,txtRating,txtDiskon;
     ImageView backdrop;
     Button btnFasilitas,btnItinenary,btnUlasan;
-    int hargaPaket;
+    int hargaPaket,diskonPaket;
     private SweetAlertDialog pDialogInfo,pDialogLoading;
     private List<Wisata> wisataList;
     DatabaseReference ref,refUser;
@@ -88,6 +88,7 @@ public class DetailPaketTourAdmin extends AppCompatActivity {
         btnTambah = findViewById(R.id.btnCreate);
         btnItinenary = findViewById(R.id.btnItinenary);
         btnUlasan = findViewById(R.id.btnUlasan);
+        txtDiskon = findViewById(R.id.txtDiskon);
 
         fab_open = AnimationUtils.loadAnimation(this,R.anim.fab_open);
         fab_close = AnimationUtils.loadAnimation(this,R.anim.fab_close);
@@ -216,6 +217,32 @@ public class DetailPaketTourAdmin extends AppCompatActivity {
                     txtRating.setText(""+showRating);
                 }
 
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        ref.child("pakettour").child(SharedVariable.paket).child(paketTour.getKey()).child("diskon").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                if (dataSnapshot.exists()){
+                    String diskon = dataSnapshot.getValue().toString();
+
+                    NumberFormat format = NumberFormat.getCurrencyInstance(Locale.ENGLISH);
+                    Locale localeID = new Locale("in", "ID");
+                    NumberFormat formatRupiah = NumberFormat.getCurrencyInstance(localeID);
+                    diskonPaket = Integer.parseInt(diskon);
+
+
+                    Log.d("diskon:",diskon);
+                    txtDiskon.setText("Diskon "+formatRupiah.format((double) diskonPaket));
+                }else {
+                    txtDiskon.setText("belum ada diskon");
+                }
             }
 
             @Override

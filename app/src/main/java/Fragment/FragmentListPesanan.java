@@ -101,6 +101,8 @@ public class FragmentListPesanan extends Fragment {
                    String namaPaket = child.child("namaPaket").getValue().toString();
                    String namaPengguna = child.child("namaPengguna").getValue().toString();
                    String keterangan = child.child("keterangan").getValue().toString();
+                   String jmlPenumpang = child.child("jmlPenumpang").getValue().toString();
+                   String totalHarga = child.child("totalHarga").getValue().toString();
 
                    Pesanan pesanan = new Pesanan(
                            idUser,
@@ -112,7 +114,9 @@ public class FragmentListPesanan extends Fragment {
                            status,
                            namaPaket,
                            namaPengguna,
-                           foto
+                           foto,
+                           jmlPenumpang,
+                           totalHarga
                    );
 
                    listPesanan.add(pesanan);

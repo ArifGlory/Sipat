@@ -5,6 +5,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
+        android:background="@color/viewBg"
         android:layout_height="match_parent">
 
         <RelativeLayout
@@ -18,22 +19,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:padding="10dp"
-                android:text="Harga"
-                android:id="@+id/txtHarga"
-                android:textColor="@color/white_greyish"
-                android:textSize="21sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
+                android:layout_marginTop="10dp"
                 android:padding="4dp"
                 android:background="@color/white_greyish"
                 android:text="Jenis Paket"
                 android:layout_marginLeft="10dp"
-                android:layout_below="@+id/txtHarga"
                 android:id="@+id/txtJenisPaket"
                 android:textColor="@color/colorPrimary"
                 android:textSize="16sp"
@@ -43,11 +33,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="5dp"
+                android:layout_alignParentLeft="true"
                 android:layout_below="@+id/txtJenisPaket"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="5dp"
-                android:text="No Rek. Perusahaan : 202828283 "
+                android:text="No Rek. Perusahaan : 202828283"
                 android:id="@+id/txtNoRek"
                 android:textColor="@color/white_greyish"
                 android:textSize="16sp"
@@ -58,8 +49,9 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:layout_below="@+id/txtNoRek"
-                android:layout_centerHorizontal="true"
+                android:layout_alignParentLeft="true"
                 android:layout_marginRight="5dp"
+                android:layout_marginLeft="5dp"
                 android:text="Mandiri"
                 android:id="@+id/txtBank"
                 android:textColor="@color/white_greyish"
@@ -84,8 +76,10 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:padding="5dp"
-                android:layout_below="@+id/txtTanggal"
-                android:layout_alignParentRight="true"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/btn_round"
+                android:layout_below="@+id/txtBank"
+                android:layout_alignParentLeft="true"
                 android:layout_marginRight="5dp"
                 android:text="Status"
                 android:id="@+id/txtStatus"
@@ -95,6 +89,142 @@
 
 
         </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/relaPaket"
+        android:id="@+id/lineHarga"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="fill_parent"
+            android:padding="10dp"
+            android:layout_height="1px"
+            android:background="@color/black2" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:padding="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_alignParentLeft="true"
+                android:text="Jumlah Penumpang"
+                android:textColor="@color/black2"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_alignParentRight="true"
+                android:text="..orang"
+                android:id="@+id/txtJmlPenumpang"
+                android:textColor="@color/black2"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:padding="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_alignParentLeft="true"
+                android:text="Harga"
+                android:textColor="@color/black2"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_alignParentRight="true"
+                android:text="Rp.."
+                android:id="@+id/txtHarga"
+                android:textColor="@color/black2"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:padding="5dp"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_alignParentLeft="true"
+                android:text="Diskon"
+                android:textColor="@color/black2"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_alignParentRight="true"
+                android:text="Rp.."
+                android:id="@+id/txtDiskon"
+                android:textColor="@color/black2"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:padding="5dp"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_alignParentLeft="true"
+                android:text="Total"
+                android:textColor="@color/black2"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_alignParentRight="true"
+                android:text="Rp.."
+                android:id="@+id/txtTotal"
+                android:textColor="@color/black2"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+
+
+
+        </RelativeLayout>
+
+    </LinearLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -125,28 +255,19 @@
                 android:textStyle="bold" />
 
 
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="1px"
-                android:layout_below="@+id/imgFoto"
-                android:layout_marginTop="5dp"
-                android:background="@color/album_title" />
-
-
-
         </RelativeLayout>
 
 
         <ImageView
-            android:layout_width="200dp"
-            android:layout_height="200dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:background="@color/startblue"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="5dp"
             android:id="@+id/imgBuktiBayar"
             android:src="@drawable/belum_upload"
-            android:layout_below="@+id/relaPaket"
-            android:padding="10dp"/>
+            android:layout_below="@+id/lineHarga"
+            android:padding="5dp"/>
 
 
     <Button

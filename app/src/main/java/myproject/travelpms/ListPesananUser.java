@@ -73,6 +73,8 @@ public class ListPesananUser extends AppCompatActivity {
                     String namaPaket = child.child("namaPaket").getValue().toString();
                     String namaPengguna = child.child("namaPengguna").getValue().toString();
                     String keterangan = child.child("keterangan").getValue().toString();
+                    String jmlPenumpang = child.child("jmlPenumpang").getValue().toString();
+                    String totalHarga = child.child("totalHarga").getValue().toString();
 
                     if (idUser.equals(SharedVariable.userID)){
                         Pesanan pesanan = new Pesanan(
@@ -85,7 +87,9 @@ public class ListPesananUser extends AppCompatActivity {
                                 status,
                                 namaPaket,
                                 namaPengguna,
-                                foto
+                                foto,
+                                jmlPenumpang,
+                                totalHarga
                         );
 
                         listPesanan.add(pesanan);

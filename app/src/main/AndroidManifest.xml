@@ -75,7 +75,8 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".CheckoutActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:label="Checkout"
+            />
         <activity
             android:name=".ListPesananUser"
             android:label="Pesanan Saya" />

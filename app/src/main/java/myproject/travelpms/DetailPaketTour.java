@@ -9,6 +9,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -50,10 +51,10 @@ public class DetailPaketTour extends AppCompatActivity implements RatingDialogLi
     RecyclerView recyclerView;
     AdapterWisata adapterWisata;
     Intent i;
-    TextView namaPaket,durasi,jmlPeserta,harga,txtKey,txtRating;
+    TextView namaPaket,durasi,jmlPeserta,harga,txtKey,txtRating,txtDiskon;
     ImageView backdrop,imgRate;
     Button btnFasilitas,btnItinenary,btnUlasan;
-    int hargaPaket;
+    int hargaPaket,diskonPaket;
     private SweetAlertDialog pDialogInfo,pDialogLoading;
     private List<Wisata> wisataList;
     DatabaseReference ref,refUser;
@@ -93,11 +94,13 @@ public class DetailPaketTour extends AppCompatActivity implements RatingDialogLi
         appbar = findViewById(R.id.appbar);
         btnItinenary = findViewById(R.id.btnItinenary);
         btnUlasan = findViewById(R.id.btnUlasan);
+        txtDiskon = findViewById(R.id.txtDiskon);
 
         NumberFormat format = NumberFormat.getCurrencyInstance(Locale.ENGLISH);
         Locale localeID = new Locale("in", "ID");
         NumberFormat formatRupiah = NumberFormat.getCurrencyInstance(localeID);
         hargaPaket = Integer.parseInt(paketTour.getHargaPaket());
+        SharedVariable.tempHarga = paketTour.getHargaPaket();
 
 
         namaPaket.setText(paketTour.getNamaPaket());
@@ -239,6 +242,32 @@ public class DetailPaketTour extends AppCompatActivity implements RatingDialogLi
             }
         });
 
+        ref.child("pakettour").child(SharedVariable.paket).child(paketTour.getKey()).child("diskon").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                if (dataSnapshot.exists()){
+                    String diskon = dataSnapshot.getValue().toString();
+
+                    NumberFormat format = NumberFormat.getCurrencyInstance(Locale.ENGLISH);
+                    Locale localeID = new Locale("in", "ID");
+                    NumberFormat formatRupiah = NumberFormat.getCurrencyInstance(localeID);
+                    diskonPaket = Integer.parseInt(diskon);
+                    SharedVariable.tempDiskon = diskon;
+
+                    Log.d("diskon:",diskon);
+                    txtDiskon.setText("Diskon "+formatRupiah.format((double) diskonPaket));
+                }else {
+                    txtDiskon.setText("belum ada diskon");
+                    SharedVariable.tempDiskon = "0";
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
     }
 

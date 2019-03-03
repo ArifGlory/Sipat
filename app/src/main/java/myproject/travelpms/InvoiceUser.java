@@ -48,7 +48,7 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class InvoiceUser extends AppCompatActivity {
 
-    TextView txtNamaPaket,txtStatus,txtTanggal,txtHarga,txtJenis;
+    TextView txtNamaPaket,txtStatus,txtTanggal,txtHarga,txtJenis,txtDiskon,txtTotal,txtJmlPenumpang;
     ImageView imgFoto,imgBuktiBayar;
     Button btnUpload;
     Intent i;
@@ -64,6 +64,7 @@ public class InvoiceUser extends AppCompatActivity {
     FirebaseUser fbUser;
     Pesanan pesanan;
     private String destro = "0";
+    private int diskonPaket,hargaPaket,total;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +93,9 @@ public class InvoiceUser extends AppCompatActivity {
         imgBuktiBayar = findViewById(R.id.imgBuktiBayar);
         imgFoto = findViewById(R.id.imgFoto);
         btnUpload = findViewById(R.id.btnUpload);
+        txtDiskon = findViewById(R.id.txtDiskon);
+        txtTotal = findViewById(R.id.txtTotal);
+        txtJmlPenumpang = findViewById(R.id.txtJmlPenumpang);
 
         txtNamaPaket.setText(namaPaket);
         txtTanggal.setText(tanggal);
@@ -136,8 +140,40 @@ public class InvoiceUser extends AppCompatActivity {
                 NumberFormat format = NumberFormat.getCurrencyInstance(Locale.ENGLISH);
                 Locale localeID = new Locale("in", "ID");
                 NumberFormat formatRupiah = NumberFormat.getCurrencyInstance(localeID);
-                int hargaPaket = Integer.parseInt(harga);
+                hargaPaket = Integer.parseInt(harga);
                 txtHarga.setText(""+formatRupiah.format((double) hargaPaket));
+
+                pDialogLoading.dismiss();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        ref.child("pakettour").child(jenis).child(idPaket).child("diskon").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+               pDialogLoading.show();
+
+                if (dataSnapshot.exists()){
+                    String diskon = dataSnapshot.getValue().toString();
+
+                    NumberFormat format = NumberFormat.getCurrencyInstance(Locale.ENGLISH);
+                    Locale localeID = new Locale("in", "ID");
+                    NumberFormat formatRupiah = NumberFormat.getCurrencyInstance(localeID);
+                    diskonPaket = Integer.parseInt(diskon);
+
+
+                    Log.d("diskon:",diskon);
+                    txtDiskon.setText(""+formatRupiah.format((double) diskonPaket));
+
+
+                }else {
+                    txtDiskon.setText("Rp. 0");
+
+                }
 
                 pDialogLoading.dismiss();
             }
@@ -163,6 +199,17 @@ public class InvoiceUser extends AppCompatActivity {
                     }
 
                 }
+
+                String totalHarga = dataSnapshot.child("totalHarga").getValue().toString();
+                String jmlPenumpang = dataSnapshot.child("jmlPenumpang").getValue().toString();
+
+                NumberFormat format = NumberFormat.getCurrencyInstance(Locale.ENGLISH);
+                Locale localeID = new Locale("in", "ID");
+                NumberFormat formatRupiah = NumberFormat.getCurrencyInstance(localeID);
+                int total = Integer.parseInt(totalHarga);
+                txtTotal.setText(""+formatRupiah.format((double) total));
+
+                txtJmlPenumpang.setText(jmlPenumpang + " Orang");
 
             }
 
