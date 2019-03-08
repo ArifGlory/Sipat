@@ -20,7 +20,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
 
 import Kelas.PaketTour;
 import Kelas.SharedVariable;
@@ -100,6 +102,15 @@ public class AdapterDestinasi extends RecyclerView.Adapter<AdapterDestinasi.MyVi
             holder.cv_main.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    //tambahkan ke paket dilihat
+                    //Creating parameters
+                    Map<String,String> params = new Hashtable<String, String>();
+
+                    //Adding parameters
+                    params.put("keyPaket", paketTour.getKey());
+                    params.put("namaPaket", paketTour.getNamaPaket());
+
+                    ref.child("users").child(SharedVariable.userID).child("paketDilihat").child(paketTour.getKey()).setValue(params);
 
                     Intent intent = new Intent(mContext.getApplicationContext(),DetailPaketTour.class);
                     intent.putExtra("paketTour", paketTour);
@@ -110,6 +121,15 @@ public class AdapterDestinasi extends RecyclerView.Adapter<AdapterDestinasi.MyVi
             holder.relaPaket.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    Map<String,String> params = new Hashtable<String, String>();
+
+                    //Adding parameters
+                    params.put("keyPaket", paketTour.getKey());
+                    params.put("namaPaket", paketTour.getNamaPaket());
+
+                    ref.child("users").child(SharedVariable.userID).child("paketDilihat").child(paketTour.getKey()).setValue(params);
+
+
                     Intent intent = new Intent(mContext.getApplicationContext(),DetailPaketTour.class);
                     intent.putExtra("paketTour", paketTour);
                     mContext.startActivity(intent);

@@ -34,7 +34,9 @@ import com.google.firebase.database.ValueEventListener;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Hashtable;
 import java.util.Locale;
+import java.util.Map;
 
 import Kelas.DaftarPaketKelas;
 import Kelas.Pesanan;
@@ -58,6 +60,7 @@ public class CheckoutActivity extends AppCompatActivity {
     String keyPesanan = "";
     DaftarPaketKelas daftarPaketKelas;
     private int hargaPaket,diskon,total,hargaNew;
+    private String jmlDipesanPaket,jenisPaket;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +75,7 @@ public class CheckoutActivity extends AppCompatActivity {
         ref = FirebaseDatabase.getInstance().getReference();
         i = getIntent();
         keyPaket = i.getStringExtra("keyPaket");
+        jenisPaket = SharedVariable.paket;
         daftarPaketKelas = (DaftarPaketKelas) i.getSerializableExtra("daftarPaket");
 
 
@@ -90,6 +94,7 @@ public class CheckoutActivity extends AppCompatActivity {
         diskon = Integer.parseInt(SharedVariable.tempDiskon);
         total = hargaPaket - diskon;
 
+        getJmlDipesanPaket();
 
         pDialogLoading = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
         pDialogLoading.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
@@ -167,6 +172,24 @@ public class CheckoutActivity extends AppCompatActivity {
 
     }
 
+    private void getJmlDipesanPaket(){
+        ref.child("pakettour").child(jenisPaket).child(keyPaket).child("jmlDipesanPaket").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()){
+                    jmlDipesanPaket = dataSnapshot.getValue().toString();
+                }else {
+                    jmlDipesanPaket = "0";
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
     private void matikanKomponen(){
         pDialogLoading.show();
         etKeterangan.setEnabled(false);
@@ -227,11 +250,24 @@ public class CheckoutActivity extends AppCompatActivity {
         Task initTask;
        initTask =  ref.child("pesanan").child(keyPesanan).setValue(pesanan);
 
+        Map<String,String> params = new Hashtable<String, String>();
+
+        //Masukin ke paket dipesan
+        params.put("keyPaket", keyPaket);
+        params.put("namaPaket", SharedVariable.namaPaketPesanan);
+
+        ref.child("users").child(SharedVariable.userID).child("paketDipesan").child(keyPaket).setValue(params);
+
+
         initTask =  ref.child("pesanan").child(keyPesanan).setValue(pesanan);
         initTask.addOnSuccessListener(new OnSuccessListener() {
             @Override
             public void onSuccess(Object o) {
+                int jumlahDipesanPaket = Integer.parseInt(jmlDipesanPaket);
+                jumlahDipesanPaket++;
                 ref.child("pesanan").child(keyPesanan).child("daftarPaket").setValue(daftarPaketKelas);
+                ref.child("pakettour").child(jenisPaket).child(keyPaket).child("jmlDipesanPaket").setValue(String.valueOf(jumlahDipesanPaket));
+
                 new SweetAlertDialog(CheckoutActivity.this, SweetAlertDialog.SUCCESS_TYPE)
                         .setTitleText("Pemesanan berhasil!")
                         .setContentText("Silakan cek perkembangan pesanan anda di menu 'Paket Tour Saya' ")

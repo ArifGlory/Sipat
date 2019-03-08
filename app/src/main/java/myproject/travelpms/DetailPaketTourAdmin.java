@@ -102,7 +102,7 @@ public class DetailPaketTourAdmin extends AppCompatActivity {
 
         namaPaket.setText(paketTour.getNamaPaket());
         durasi.setText("Durasi : "+paketTour.getDurasiPaket()+" hari");
-        jmlPeserta.setText("Maksimal Peserta : "+paketTour.getJumlahPeserta()+" Orang");
+        jmlPeserta.setText("Minimal Peserta : "+paketTour.getJumlahPeserta()+" Orang");
         harga.setText("Harga : "+formatRupiah.format((double) hargaPaket));
         txtRating.setText("-");
 

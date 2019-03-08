@@ -75,7 +75,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".CheckoutActivity"
-            android:label="Checkout" />
+            android:label="Ringkasan Pesanan" />
         <activity
             android:name=".ListPesananUser"
             android:label="Pesanan Saya" />
@@ -116,9 +116,21 @@
         </activity>
         <activity
             android:name=".UlasanActivity"
-            android:label="Ulasan Pelanggan"></activity>
-        <activity android:name=".DiskonActivity"
-            android:label="Kelola Diskon"></activity>
+            android:label="Ulasan Pelanggan" />
+        <activity
+            android:name=".DiskonActivity"
+            android:label="Kelola Diskon" />
+        <activity
+            android:name=".LaporanPaketDilihatActivity"
+            android:label="Laporan Pengguna" />
+        <activity
+            android:name=".SummaryUserActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".PilihLaporanPesanan"
+            android:label="Pilih Paket" />
+        <activity android:name=".LaporanTerlarisActivity"
+            android:label="Terlaris Bulan ini"></activity>
     </application>
 
 </manifest>

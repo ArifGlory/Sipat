@@ -105,7 +105,7 @@ public class DetailPaketTour extends AppCompatActivity implements RatingDialogLi
 
         namaPaket.setText(paketTour.getNamaPaket());
         durasi.setText("Durasi : "+paketTour.getDurasiPaket()+" hari");
-        jmlPeserta.setText("Maksimal Peserta : "+paketTour.getJumlahPeserta()+" Orang");
+        jmlPeserta.setText("Minimal Peserta : "+paketTour.getJumlahPeserta()+" Orang");
         harga.setText("Harga : "+formatRupiah.format((double) hargaPaket));
         txtKey.setText(paketTour.getKey());
         txtKey.setVisibility(View.INVISIBLE);

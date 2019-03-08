@@ -11,11 +11,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import Kelas.SharedVariable;
+import myproject.travelpms.LaporanPaketDilihatActivity;
 import myproject.travelpms.LaporanPemesananActivity;
 import myproject.travelpms.LaporanPenggunaActivity;
 import myproject.travelpms.ListPaketInstansi;
 import myproject.travelpms.ListPaketSekolah;
 import myproject.travelpms.ListPaketUmum;
+import myproject.travelpms.PilihLaporanPesanan;
 import myproject.travelpms.R;
 
 /**
@@ -73,13 +75,13 @@ public class AdapterAdminLaporan extends RecyclerView.Adapter<AdapterAdminLapora
 
                 if (position == 0){
                     String laporan = "laporan_pemesanan";
-                    Intent intent = new Intent(mContext.getApplicationContext(),LaporanPemesananActivity.class);
+                    Intent intent = new Intent(mContext.getApplicationContext(),PilihLaporanPesanan.class);
                     intent.putExtra("keyLaporan",laporan);
                       mContext.startActivity(intent);
                 }else if (position == 1){
                     String laporan = "laporan_pengguna";
-                    Intent intent = new Intent(mContext.getApplicationContext(),LaporanPenggunaActivity.class);
-                    intent.putExtra("keyLaporan",laporan);
+                    Intent intent = new Intent(mContext.getApplicationContext(),LaporanPaketDilihatActivity.class);
+                  //  intent.putExtra("keyLaporan",laporan);
                     mContext.startActivity(intent);
                 }
 

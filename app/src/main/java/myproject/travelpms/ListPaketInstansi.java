@@ -33,11 +33,11 @@ public class ListPaketInstansi extends AppCompatActivity {
     private RecyclerView recyclerView;
     AdapterListPaket adapter;
     FloatingActionButton btnTambah;
-    private List<PaketTour> paketTourList;
+
+    String level,paketTour; private List<PaketTour> paketTourList;
     DatabaseReference ref,refUser;
     private FirebaseAuth fAuth;
     private FirebaseAuth.AuthStateListener fStateListener;
-    String level,paketTour;
     UserPreference mUserpref;
     private SweetAlertDialog pDialogLoading,pDialodInfo;
 
