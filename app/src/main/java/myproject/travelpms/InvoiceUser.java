@@ -98,7 +98,7 @@ public class InvoiceUser extends AppCompatActivity {
         txtJmlPenumpang = findViewById(R.id.txtJmlPenumpang);
 
         txtNamaPaket.setText(namaPaket);
-        txtTanggal.setText(tanggal);
+        txtTanggal.setText("Tanggal pesan :"+tanggal);
 
         pDialogLoading = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
         pDialogLoading.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
