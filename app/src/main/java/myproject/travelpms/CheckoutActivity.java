@@ -34,6 +34,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Hashtable;
 import java.util.Locale;
 import java.util.Map;
@@ -47,7 +48,7 @@ public class CheckoutActivity extends AppCompatActivity {
 
     Button btnTanggal,btnSimpan;
     EditText etTanggal,etKeterangan,etJmlPenumpang;
-    TextView txtJmlPenumpang,txtHarga,txtDiskon;
+    TextView txtJmlPenumpang,txtHarga,txtDiskon,txtTanggalPesan;
     private DatePickerDialog datePickerDialog;
     private SimpleDateFormat dateFormatter;
     private SweetAlertDialog pDialogLoading,pDialodInfo;
@@ -60,7 +61,7 @@ public class CheckoutActivity extends AppCompatActivity {
     String keyPesanan = "";
     DaftarPaketKelas daftarPaketKelas;
     private int hargaPaket,diskon,total,hargaNew;
-    private String jmlDipesanPaket,jenisPaket;
+    private String jmlDipesanPaket,jenisPaket,timeStamp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,12 +88,16 @@ public class CheckoutActivity extends AppCompatActivity {
         txtJmlPenumpang = findViewById(R.id.txtJmlPenumpang);
         txtHarga = findViewById(R.id.txtHarga);
         txtDiskon = findViewById(R.id.txtDiskon);
+        txtTanggalPesan = findViewById(R.id.txtTanggalPesan);
 
         etTanggal.setEnabled(false);
         txtJmlPenumpang.setText("1");
 
         diskon = Integer.parseInt(SharedVariable.tempDiskon);
         total = hargaPaket - diskon;
+        timeStamp = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
+        txtTanggalPesan.setText("Tanggal pesan : "+timeStamp);
+
 
         getJmlDipesanPaket();
 
@@ -266,6 +271,7 @@ public class CheckoutActivity extends AppCompatActivity {
                 int jumlahDipesanPaket = Integer.parseInt(jmlDipesanPaket);
                 jumlahDipesanPaket++;
                 ref.child("pesanan").child(keyPesanan).child("daftarPaket").setValue(daftarPaketKelas);
+                ref.child("pesanan").child(keyPesanan).child("tanggalPesan").setValue(timeStamp);
                 ref.child("pakettour").child(jenisPaket).child(keyPaket).child("jmlDipesanPaket").setValue(String.valueOf(jumlahDipesanPaket));
 
                 new SweetAlertDialog(CheckoutActivity.this, SweetAlertDialog.SUCCESS_TYPE)

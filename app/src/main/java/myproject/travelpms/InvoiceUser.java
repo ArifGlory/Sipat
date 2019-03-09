@@ -48,7 +48,7 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class InvoiceUser extends AppCompatActivity {
 
-    TextView txtNamaPaket,txtStatus,txtTanggal,txtHarga,txtJenis,txtDiskon,txtTotal,txtJmlPenumpang;
+    TextView txtNamaPaket,txtStatus,txtTanggal,txtHarga,txtJenis,txtDiskon,txtTotal,txtJmlPenumpang,txtTanggalPesan;
     ImageView imgFoto,imgBuktiBayar;
     Button btnUpload;
     Intent i;
@@ -96,9 +96,10 @@ public class InvoiceUser extends AppCompatActivity {
         txtDiskon = findViewById(R.id.txtDiskon);
         txtTotal = findViewById(R.id.txtTotal);
         txtJmlPenumpang = findViewById(R.id.txtJmlPenumpang);
+        txtTanggalPesan = findViewById(R.id.txtTanggalPesan);
 
         txtNamaPaket.setText(namaPaket);
-        txtTanggal.setText("Tanggal pesan :"+tanggal);
+        txtTanggal.setText("Tanggal Berangkat :"+tanggal);
 
         pDialogLoading = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
         pDialogLoading.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
@@ -198,6 +199,14 @@ public class InvoiceUser extends AppCompatActivity {
                         btnUpload.setText("Ubah Bukti Bayar");
                     }
 
+                }
+
+                if (dataSnapshot.child("tanggalPesan").exists()){
+                    String tglPesan = dataSnapshot.child("tanggalPesan").getValue().toString();
+                    txtTanggalPesan.setText("Tanggal Pesan :  "+tglPesan);
+                }else {
+                    String timeStamp = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
+                    txtTanggalPesan.setText(timeStamp);
                 }
 
                 String totalHarga = dataSnapshot.child("totalHarga").getValue().toString();
