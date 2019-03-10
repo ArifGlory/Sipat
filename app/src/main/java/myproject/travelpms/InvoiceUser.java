@@ -48,7 +48,7 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class InvoiceUser extends AppCompatActivity {
 
-    TextView txtNamaPaket,txtStatus,txtTanggal,txtHarga,txtJenis,txtDiskon,txtTotal,txtJmlPenumpang,txtTanggalPesan;
+    TextView txtNamaPaket,txtStatus,txtTanggal,txtHarga,txtJenis,txtDiskon,txtTotal,txtJmlPenumpang,txtTanggalPesan,txtMaxBayar;
     ImageView imgFoto,imgBuktiBayar;
     Button btnUpload;
     Intent i;
@@ -65,6 +65,7 @@ public class InvoiceUser extends AppCompatActivity {
     Pesanan pesanan;
     private String destro = "0";
     private int diskonPaket,hargaPaket,total;
+    private String tglNow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,9 +98,12 @@ public class InvoiceUser extends AppCompatActivity {
         txtTotal = findViewById(R.id.txtTotal);
         txtJmlPenumpang = findViewById(R.id.txtJmlPenumpang);
         txtTanggalPesan = findViewById(R.id.txtTanggalPesan);
+        txtMaxBayar = findViewById(R.id.txtMaxBayar);
 
         txtNamaPaket.setText(namaPaket);
         txtTanggal.setText("Tanggal Berangkat :"+tanggal);
+
+        tglNow  = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
 
         pDialogLoading = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
         pDialogLoading.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
@@ -114,10 +118,13 @@ public class InvoiceUser extends AppCompatActivity {
 
         if (status.equals("M")){
             txtStatus.setText("Status : Menunggu");
+            txtMaxBayar.setText("Waktu pembayaran paling lambat 1 hari");
         }else if (status.equals("T")){
             txtStatus.setText("Status : Diterima");
+            txtMaxBayar.setText("Pesanan Diterima oleh admin");
         }else if (status.equals("D")){
             txtStatus.setText("Status : Ditolak");
+            txtMaxBayar.setText("Pesanan dibatalkan karena melewati waktu pembayaran");
         }
 
         if (jenis.equals("paket_instansi")){
@@ -204,6 +211,12 @@ public class InvoiceUser extends AppCompatActivity {
                 if (dataSnapshot.child("tanggalPesan").exists()){
                     String tglPesan = dataSnapshot.child("tanggalPesan").getValue().toString();
                     txtTanggalPesan.setText("Tanggal Pesan :  "+tglPesan);
+
+                    if (!tglPesan.equals(tglNow)){
+                        ref.child("pesanan").child(keyPesanan).child("status").setValue("D");
+                        txtStatus.setText("Status : Ditolak");
+                        txtMaxBayar.setText("Pesanan dibatalkan karena melewati waktu pembayaran");
+                    }
                 }else {
                     String timeStamp = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
                     txtTanggalPesan.setText(timeStamp);

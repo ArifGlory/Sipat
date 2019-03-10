@@ -15,7 +15,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="230dp"
+            android:layout_height="250dp"
             android:id="@+id/relaTitle"
             android:background="@color/colorPrimary">
 
@@ -121,7 +121,7 @@
                     android:gravity="center"
                     android:padding="5dp"
                     android:background="@drawable/btn_round"
-                    android:text="Waktu pembayaran paling lambat 3 Hari"
+                    android:text="Waktu pembayaran paling lambat 1 Hari"
                     android:id="@+id/txtMaxBayar"
                     android:textColor="@color/white_greyish"
                     android:textSize="16sp"

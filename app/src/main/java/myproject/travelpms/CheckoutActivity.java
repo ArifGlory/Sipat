@@ -60,8 +60,9 @@ public class CheckoutActivity extends AppCompatActivity {
     private String keyPaket,foto;
     String keyPesanan = "";
     DaftarPaketKelas daftarPaketKelas;
-    private int hargaPaket,diskon,total,hargaNew;
+    private int hargaPaket,diskonSatuan,totalDiskon,total,hargaNew;
     private String jmlDipesanPaket,jenisPaket,timeStamp;
+    private int minJmlPenumpang,inputJmlPenumpang;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +79,7 @@ public class CheckoutActivity extends AppCompatActivity {
         keyPaket = i.getStringExtra("keyPaket");
         jenisPaket = SharedVariable.paket;
         daftarPaketKelas = (DaftarPaketKelas) i.getSerializableExtra("daftarPaket");
+        minJmlPenumpang = Integer.parseInt(SharedVariable.tempJmlPenumpang);
 
 
         btnSimpan = findViewById(R.id.btnSimpan);
@@ -91,13 +93,28 @@ public class CheckoutActivity extends AppCompatActivity {
         txtTanggalPesan = findViewById(R.id.txtTanggalPesan);
 
         etTanggal.setEnabled(false);
-        txtJmlPenumpang.setText("1");
 
-        diskon = Integer.parseInt(SharedVariable.tempDiskon);
-        total = hargaPaket - diskon;
+
+        NumberFormat format = NumberFormat.getCurrencyInstance(Locale.ENGLISH);
+        Locale localeID = new Locale("in", "ID");
+        NumberFormat formatRupiah = NumberFormat.getCurrencyInstance(localeID);
+
+        diskonSatuan = Integer.parseInt(SharedVariable.tempDiskon);
+        hargaPaket = Integer.parseInt(SharedVariable.tempHarga);
+        totalDiskon = diskonSatuan * minJmlPenumpang;
+
+        txtJmlPenumpang.setText(""+minJmlPenumpang);
+        etJmlPenumpang.setText(""+minJmlPenumpang);
+        hargaNew = hargaPaket * minJmlPenumpang;
+        txtHarga.setText(""+formatRupiah.format((double) hargaNew));
+        total = hargaNew - totalDiskon;
+        txtDiskon.setText(""+formatRupiah.format((double) totalDiskon));
+
+
         timeStamp = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
         txtTanggalPesan.setText("Tanggal pesan : "+timeStamp);
 
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 
         getJmlDipesanPaket();
 
@@ -107,13 +124,6 @@ public class CheckoutActivity extends AppCompatActivity {
         pDialogLoading.setCancelable(false);
         pDialogLoading.show();
 
-        NumberFormat format = NumberFormat.getCurrencyInstance(Locale.ENGLISH);
-        Locale localeID = new Locale("in", "ID");
-        NumberFormat formatRupiah = NumberFormat.getCurrencyInstance(localeID);
-        hargaPaket = Integer.parseInt(SharedVariable.tempHarga);
-        txtHarga.setText(""+formatRupiah.format((double) hargaPaket));
-        txtDiskon.setText(""+formatRupiah.format((double) diskon));
-        hargaNew = hargaPaket;
 
         dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
         btnTanggal.setOnClickListener(new View.OnClickListener() {
@@ -146,9 +156,14 @@ public class CheckoutActivity extends AppCompatActivity {
 
                     String jml = String.valueOf(s);
                     int jmlPenumpang = Integer.parseInt(jml);
+                    inputJmlPenumpang = jmlPenumpang;
                     hargaNew = hargaPaket * jmlPenumpang;
                     txtHarga.setText(""+formatRupiah.format((double) hargaNew));
-                    total = hargaNew - diskon;
+
+                    totalDiskon = diskonSatuan * jmlPenumpang;
+                    txtDiskon.setText(""+formatRupiah.format((double) totalDiskon));
+
+                    total = hargaNew - totalDiskon;
                 }else {
                     txtHarga.setText("Rp. 0");
                     txtJmlPenumpang.setText("0");
@@ -223,7 +238,17 @@ public class CheckoutActivity extends AppCompatActivity {
                     .show();
             hidupkanKomponen();
             pDialogLoading.dismiss();
-        }else {
+
+        }else if (inputJmlPenumpang<minJmlPenumpang){
+            new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
+                    .setTitleText("Oops...")
+                    .setContentText("Minimal Jumlah Penumpang adalah "+minJmlPenumpang)
+                    .show();
+            hidupkanKomponen();
+            pDialogLoading.dismiss();
+        }
+
+        else {
            uploadData();
             hidupkanKomponen();
         }
