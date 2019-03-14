@@ -129,8 +129,11 @@
         <activity
             android:name=".PilihLaporanPesanan"
             android:label="Pilih Paket" />
-        <activity android:name=".LaporanTerlarisActivity"
-            android:label="Terlaris Bulan ini"></activity>
+        <activity
+            android:name=".LaporanTerlarisActivity"
+            android:label="Terlaris Bulan ini" />
+        <activity android:name=".BigImageActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

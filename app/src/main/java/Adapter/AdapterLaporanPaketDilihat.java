@@ -94,7 +94,6 @@ public class AdapterLaporanPaketDilihat extends RecyclerView.Adapter<AdapterLapo
             }else {
                 Glide.with(mContext)
                         .load(laporanPaketDilihat.getFoto())
-                        .crossFade()
                         .into(holder.imgFoto);
             }
 

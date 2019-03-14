@@ -96,7 +96,6 @@ public class AdapterUlasan extends RecyclerView.Adapter<AdapterUlasan.MyViewHold
             }else {
                 Glide.with(mContext)
                         .load(ulasan.getFoto())
-                        .crossFade()
                         .into(holder.imgFoto);
             }
 

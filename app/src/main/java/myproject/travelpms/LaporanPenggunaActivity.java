@@ -11,16 +11,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.firebase.client.Firebase;
-import com.github.mikephil.charting.charts.HorizontalBarChart;
-import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.components.Description;
-import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.data.BarData;
-import com.github.mikephil.charting.data.BarDataSet;
-import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -30,16 +20,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import Adapter.AdapterLaporanPengguna;
-import Kelas.XAxisValueFormatter;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class LaporanPenggunaActivity extends AppCompatActivity {
 
-    HorizontalBarChart chart;
     Spinner spBulan;
     DatabaseReference ref,refUser;
     private FirebaseAuth fAuth;
@@ -169,8 +156,6 @@ public class LaporanPenggunaActivity extends AppCompatActivity {
 
             }
         });
-
-
 
 
 

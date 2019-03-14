@@ -245,16 +245,85 @@
     </LinearLayout>
 
 
-    <ImageView
-        android:layout_width="90dp"
-        android:layout_height="90dp"
-        android:background="@color/startblue"
-        android:layout_centerHorizontal="true"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:layout_marginTop="15dp"
-        android:id="@+id/imgBuktiBayar"
-        android:src="@drawable/empty_image"
+        android:id="@+id/lineGambar"
         android:layout_below="@+id/lineHarga"
-        android:padding="5dp"/>
+        android:weightSum="2">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Bukti Bayar"
+                android:textStyle="bold"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="10dp"/>
+
+            <ImageView
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:background="@color/startblue"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="15dp"
+                android:id="@+id/imgBuktiBayar"
+                android:src="@drawable/empty_image"
+                android:padding="5dp"/>
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Kwitansi"
+                android:textStyle="bold"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="10dp"/>
+
+            <ImageView
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:background="@color/startblue"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="15dp"
+                android:id="@+id/imgKwitansi"
+                android:src="@drawable/empty_image"
+                android:padding="5dp"/>
+
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Upload Kwitansi"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:paddingHorizontal="10dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone"
+        android:id="@+id/btnUploadKwitansi"
+        android:background="#3498db"
+        android:textColor="@color/white_greyish"
+        />
 
 
     <LinearLayout

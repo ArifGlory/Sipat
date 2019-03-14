@@ -49,7 +49,7 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 public class InvoiceUser extends AppCompatActivity {
 
     TextView txtNamaPaket,txtStatus,txtTanggal,txtHarga,txtJenis,txtDiskon,txtTotal,txtJmlPenumpang,txtTanggalPesan,txtMaxBayar;
-    ImageView imgFoto,imgBuktiBayar;
+    ImageView imgFoto,imgBuktiBayar,imgKwitansi;
     Button btnUpload;
     Intent i;
     private String namaPaket,idPaket,status,tanggal,jenis,keyPesanan;
@@ -64,8 +64,8 @@ public class InvoiceUser extends AppCompatActivity {
     FirebaseUser fbUser;
     Pesanan pesanan;
     private String destro = "0";
-    private int diskonPaket,hargaPaket,total;
-    private String tglNow;
+    private int diskonPaket,hargaPaket,total,totalDiskon;
+    private String tglNow,urlBuktiBayar,urlKwitansi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +92,7 @@ public class InvoiceUser extends AppCompatActivity {
         txtJenis = findViewById(R.id.txtJenisPaket);
         txtNamaPaket = findViewById(R.id.txtNamaPaket);
         imgBuktiBayar = findViewById(R.id.imgBuktiBayar);
+        imgKwitansi = findViewById(R.id.imgKwitansi);
         imgFoto = findViewById(R.id.imgFoto);
         btnUpload = findViewById(R.id.btnUpload);
         txtDiskon = findViewById(R.id.txtDiskon);
@@ -134,6 +135,30 @@ public class InvoiceUser extends AppCompatActivity {
         }else if (jenis.equals("paket_umum")){
             txtJenis.setText("Paket Umum");
         }
+        urlBuktiBayar = "no";
+
+        imgBuktiBayar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (!urlBuktiBayar.equals("no")){
+                    Intent i = new Intent(getApplicationContext(),BigImageActivity.class);
+                    i.putExtra("url",urlBuktiBayar);
+                    startActivity(i);
+                }
+            }
+        });
+        imgKwitansi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (!urlKwitansi.equals("no")){
+                    Intent i = new Intent(getApplicationContext(),BigImageActivity.class);
+                    i.putExtra("url",urlKwitansi);
+                    startActivity(i);
+                }
+            }
+        });
 
         ref.child("pakettour").child(jenis).child(idPaket).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -172,10 +197,12 @@ public class InvoiceUser extends AppCompatActivity {
                     Locale localeID = new Locale("in", "ID");
                     NumberFormat formatRupiah = NumberFormat.getCurrencyInstance(localeID);
                     diskonPaket = Integer.parseInt(diskon);
+                    int jml = Integer.parseInt(pesanan.getJmlPenumpang());
+                    totalDiskon = diskonPaket * jml;
 
 
                     Log.d("diskon:",diskon);
-                    txtDiskon.setText(""+formatRupiah.format((double) diskonPaket));
+                    txtDiskon.setText(""+formatRupiah.format((double) totalDiskon));
 
 
                 }else {
@@ -191,10 +218,33 @@ public class InvoiceUser extends AppCompatActivity {
 
             }
         });
+        ref.child("pesanan").child(keyPesanan).child("kwitansi").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                if (dataSnapshot.exists()){
+                    urlKwitansi = dataSnapshot.getValue().toString();
+
+                    Glide.with(InvoiceUser.this)
+                            .load(urlKwitansi)
+                            .into(imgKwitansi);
+                }else {
+                    urlKwitansi = "no";
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
         ref.child("pesanan").child(keyPesanan).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+
+                String totalHarga = dataSnapshot.child("totalHarga").getValue().toString();
+                String jmlPenumpang = dataSnapshot.child("jmlPenumpang").getValue().toString();
 
                 if (dataSnapshot.child("buktiBayar").exists()){
 
@@ -203,6 +253,7 @@ public class InvoiceUser extends AppCompatActivity {
                         Glide.with(InvoiceUser.this)
                                 .load(buktiBayar)
                                 .into(imgBuktiBayar);
+                        urlBuktiBayar = buktiBayar;
                         btnUpload.setText("Ubah Bukti Bayar");
                     }
 
@@ -222,8 +273,7 @@ public class InvoiceUser extends AppCompatActivity {
                     txtTanggalPesan.setText(timeStamp);
                 }
 
-                String totalHarga = dataSnapshot.child("totalHarga").getValue().toString();
-                String jmlPenumpang = dataSnapshot.child("jmlPenumpang").getValue().toString();
+
 
                 NumberFormat format = NumberFormat.getCurrencyInstance(Locale.ENGLISH);
                 Locale localeID = new Locale("in", "ID");
@@ -255,12 +305,6 @@ public class InvoiceUser extends AppCompatActivity {
                     startActivityForResult(intent, RC_IMAGE_GALLERY);
 
                 }
-            }
-        });
-        imgBuktiBayar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
             }
         });
 
@@ -350,6 +394,7 @@ public class InvoiceUser extends AppCompatActivity {
                             .setTitleText("Sukses!")
                             .setContentText("Bukti bayar Berhasil Disimpan")
                             .show();
+                    urlBuktiBayar = downloadUrl.toString();
                     imgBuktiBayar.setImageURI(uriGambar);
 
                 }

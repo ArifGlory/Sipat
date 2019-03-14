@@ -9,12 +9,6 @@ import android.widget.AdapterView;
 import android.widget.Spinner;
 
 import com.firebase.client.Firebase;
-import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.components.Description;
-import com.github.mikephil.charting.data.PieData;
-import com.github.mikephil.charting.data.PieDataSet;
-import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -27,12 +21,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import Kelas.MyValueFormatter;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class LaporanPemesananActivity extends AppCompatActivity {
 
-    PieChart chart;
     Spinner spBulan;
     DatabaseReference ref,refUser;
     private FirebaseAuth fAuth;
@@ -42,7 +34,6 @@ public class LaporanPemesananActivity extends AppCompatActivity {
     List<Integer> arrayInstansi = new ArrayList<Integer>();
     List<Integer> arraySekolah = new ArrayList<Integer>();
     List<Integer> arrayUmum = new ArrayList<Integer>();
-    List<PieEntry> entries;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +50,6 @@ public class LaporanPemesananActivity extends AppCompatActivity {
         pDialogLoading.setCancelable(false);
         pDialogLoading.show();
 
-        chart = findViewById(R.id.chart);
         spBulan = findViewById(R.id.sp_bulan);
 
         Calendar c = Calendar.getInstance();
@@ -111,7 +101,6 @@ public class LaporanPemesananActivity extends AppCompatActivity {
         }
 
 
-        entries = new ArrayList<PieEntry>();
 
         ref.child("pesanan").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -142,39 +131,6 @@ public class LaporanPemesananActivity extends AppCompatActivity {
                     }
 
                 }
-
-                if (!arrayInstansi.isEmpty()){
-                    entries.add(new PieEntry(arrayInstansi.size(),"Paket Instansi"));
-                }else {
-                    entries.add(new PieEntry(0,"Paket Instansi"));
-                }
-
-                if (!arrayUmum.isEmpty()){
-                    entries.add(new PieEntry(arrayUmum.size(),"Paket Umum"));
-                }else {
-                    entries.add(new PieEntry(0,"Paket Umum"));
-                }
-
-                if (!arraySekolah.isEmpty()){
-                    entries.add(new PieEntry(arraySekolah.size(),"Paket Sekolah"));
-                }else {
-                    entries.add(new PieEntry(0,"Paket Sekolah"));
-                }
-
-
-                PieDataSet dataSet = new PieDataSet(entries,"label");
-                dataSet.setColors(ColorTemplate.LIBERTY_COLORS);
-                dataSet.setValueTextColor(R.color.album_title);
-                dataSet.setValueFormatter(new  MyValueFormatter());
-
-                Description description = new Description();
-                description.setText("Laporan Pemesanan Bulanan");
-
-                PieData pieData = new PieData(dataSet);
-                chart.setData(pieData);
-                chart.setDescription(description);
-                chart.invalidate();
-                chart.animateXY(1400,1400);
 
 
                 pDialogLoading.dismiss();
@@ -255,7 +211,6 @@ public class LaporanPemesananActivity extends AppCompatActivity {
 
     private void getDataByBulan(final String getBulan){
 
-        entries.clear();
         pDialogLoading.show();
 
         ref.child("pesanan").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -285,40 +240,6 @@ public class LaporanPemesananActivity extends AppCompatActivity {
                     }
 
                 }
-
-                if (!arrayInstansi.isEmpty()){
-                    entries.add(new PieEntry(arrayInstansi.size(),"Paket Instansi"));
-                }else {
-                    entries.add(new PieEntry(0,"Paket Instansi"));
-                }
-
-                if (!arrayUmum.isEmpty()){
-                    entries.add(new PieEntry(arrayUmum.size(),"Paket Umum"));
-                }else {
-                    entries.add(new PieEntry(0,"Paket Umum"));
-                }
-
-                if (!arraySekolah.isEmpty()){
-                    entries.add(new PieEntry(arraySekolah.size(),"Paket Sekolah"));
-                }else {
-                    entries.add(new PieEntry(0,"Paket Sekolah"));
-                }
-
-
-                PieDataSet dataSet = new PieDataSet(entries,"label");
-                dataSet.setColors(ColorTemplate.LIBERTY_COLORS);
-                dataSet.setValueTextColor(R.color.album_title);
-                dataSet.setValueFormatter(new  MyValueFormatter());
-
-
-                Description description = new Description();
-                description.setText("Laporan Pemesanan Bulanan");
-
-                PieData pieData = new PieData(dataSet);
-                chart.setData(pieData);
-                chart.setDescription(description);
-                chart.invalidate();
-                chart.animateXY(1400,1400);
 
 
                 pDialogLoading.dismiss();

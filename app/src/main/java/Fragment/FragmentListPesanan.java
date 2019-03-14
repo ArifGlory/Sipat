@@ -104,6 +104,7 @@ public class FragmentListPesanan extends Fragment {
                    String jmlPenumpang = child.child("jmlPenumpang").getValue().toString();
                    String totalHarga = child.child("totalHarga").getValue().toString();
 
+
                    Pesanan pesanan = new Pesanan(
                            idUser,
                            idPaket,
@@ -119,8 +120,11 @@ public class FragmentListPesanan extends Fragment {
                            totalHarga
                    );
 
-                   listPesanan.add(pesanan);
-                   adapter.notifyDataSetChanged();
+                   if (!status.equals("D")){
+                       listPesanan.add(pesanan);
+                       adapter.notifyDataSetChanged();
+                   }
+
                }
 
                pDialogLoading.dismiss();
